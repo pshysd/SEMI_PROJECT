@@ -1,0 +1,50 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	#footer {
+      width: 100%;
+      height: 15%;
+      background-color: black;
+      color: white;
+    }
+
+    #footer>p {
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    #footer_etc {
+      padding: 10px;
+    }
+
+    #footer_etc a {
+      text-decoration: none;
+      color: white;
+    }
+</style>
+</head>
+<body>
+	<div class="wrap">
+		<div id="footer">
+        <!--푸터-->
+        <div id="footer_etc">
+            <a href="" >개인정보처리방침</a> |
+            <a href="" >이용약관</a>
+        </div>
+        <p>
+          JV 아트센터<br />
+          서울특별시 영등포구 선유동2로 57 이레빌딩(구관) 19F, 20F<br /><br />
+
+          Tel 1544-9970<br />
+
+          © 2022 KH Arts Center All right reserved.
+        </p>
+      </div>
+	</div>
+</body>
+</html>

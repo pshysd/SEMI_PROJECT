@@ -1,0 +1,129 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	#content_2 * { margin: 1px; }
+    #resv_step {
+        height : 4%;
+    }
+    #resv_step>div {
+        display: inline-block;
+        width: 32%;
+        height: 100%;
+        margin: 1px;
+        line-height: 40px;
+        font-weight: bold;
+    }
+    #resv_step_1, #resv_step_2 {
+      background-color: black;
+        color: white;
+    }
+
+    #resv_content {
+        height: 100%;
+    }
+
+    #resv_table tr { vertical-align:top; }
+
+    #resv_form input, #resv_form button {
+      box-sizing: border-box;
+    }
+
+    #resv_form_btn {
+      width: 30%;
+      height: 40px;
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+</style>
+</head>
+<body>
+	
+	<%@ include file="../common/menubar.jsp" %>
+	
+	<div id="content">
+        <!--바디-->
+        <div id="content_1">왼쪽여백</div>
+        <div id="content_2">
+
+          <div id="resv_step" align="center">
+            <div id="resv_step_1">01.티켓선택</div>
+            <div id="resv_step_2">02.관람일/인원선택</div>
+            <div id="resv_step_3">03.결제</div>
+          </div>
+          <br>
+
+          <div id="resv_content" align="center">
+            <div id="resv_info">
+                  
+              <div id="resv_img">
+                  <img src="https://cdn.daelimmuseum.org/Program/Exhibition/List/E/Small/202209/20220916133911417001.jpg" width="98%">
+              </div>
+              <br>
+
+              <table id="resv_table">
+                  <tr>
+                    <td colspan="4">
+                      <h2>전시회명</h2>
+                      <hr>
+                    </td>
+                    
+                  </tr>
+                  <tr>
+                      <th width="80">전시기간</th>
+                      <td width="200">2022.10.01~</td>
+                      <th width="80">장소</th>
+                      <td width="200">a관</td>
+                  </tr>
+                  <tr>
+                    <th>운영시간</th>
+                    <td>
+                      월요일 휴관 <br>
+                      화수목금 <br>
+                      입장마감 1234567899000
+                    </td>
+                    <th>이용요금</th>
+                    <td>
+                      10000원
+                    </td>
+                  </tr>
+              </table>
+            </div>
+            <br><br>
+            
+            <form id="resv_form" action="" method="post">
+                <div>
+                    <table>
+                      <tr>
+                        <td>
+                          날짜 <input type="date">
+                        </td>
+                        <td>
+                          회차 <button id="resv_btn_time" onclick="return false">전일 입장 가능 11:00 ~ 20:00</button>
+                        </td>
+                        <td>
+                          인원 <input type="number" value="0" min="0">
+                        </td>
+                      </tr>
+                    </table>
+                    <br>
+                    <div align="center">
+                      <button type="submit" id="resv_form_btn">예매하기</button>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+        <div id="content_3">오른쪽여백</div>
+      </div>
+		
+		<%@ include file="../common/footerbar.jsp" %>
+	
+</body>
+</html>

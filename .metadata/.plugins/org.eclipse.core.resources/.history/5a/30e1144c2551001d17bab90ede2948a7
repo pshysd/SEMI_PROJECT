@@ -1,0 +1,197 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title><style>
+	#content {
+      height: 70%;
+      display: flex;
+    }
+
+    #content > div {
+      height: 100%;
+    }
+
+    #content_1 {
+      width: 15%;
+      float: left;
+    }
+    #content_2 {
+      width: 70%;
+      float: left;
+    }
+    #content_3 {
+      width: 15%;
+      float: right;
+    }
+    
+    /* ----- resv 스타일 ----- */
+	#content_2 * { margin: 1px; }
+    #resv_step {
+        height : 4%;
+    }
+    #resv_step>div {
+        display: inline-block;
+        width: 32%;
+        height: 100%;
+        margin: 1px;
+        line-height: 40px;
+        font-weight: bold;
+    }
+    #resv_step_1, #resv_step_2 {
+      background-color: black;
+        color: white;
+    }
+
+    #resv_content {
+        height: 100%;
+    }
+
+    #resv_table tr { vertical-align:top; }
+
+    #resv_form input, #resv_form button {
+      box-sizing: border-box;
+    }
+
+    #resv_form_btn {
+      width: 30%;
+      height: 40px;
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+</style>
+</head>
+<body>
+
+	<%@ include file="../common/menubar.jsp" %>
+	
+	<div id="content">
+        <!--바디-->
+        <div id="content_1">왼쪽여백</div>
+        <div id="content_2">
+
+          <div id="resv_step" align="center">
+            <div id="resv_step_1">01.티켓선택</div>
+            <div id="resv_step_2">02.관람일/인원선택</div>
+            <div id="resv_step_3">03.결제</div>
+          </div>
+          <br>
+
+          <div id="resv_content">
+            <div id="resv_pay_info">
+              
+              <h3>티켓정보</h3>
+              <br>
+              <hr>
+              <br>
+              <table>
+                <tr>
+                  <td width="70">전시명</td>
+                  <td width="30"></td>
+                  <td width="100">abcdefg</td>
+                </tr>
+                <tr>
+                  <td>관람일시</td>
+                  <td></td>
+                  <td>2022.10.25</td>
+                </tr>
+                <tr>
+                  <td>장소</td>
+                  <td></td>
+                  <td>디뮤지엄</td>
+                </tr>
+              </table>
+              <br>
+              <hr>
+              <br>
+              
+              <h3>결제 정보</h3>
+              <br>
+              <form id="resv_pay_form" method="post">
+                
+                <table>
+                  <tr>
+                    <th width="100">총 인원</th>
+                    <td width="100">1명</td>
+                  </tr>
+                  <tr>
+                    <th>총 금액</th>
+                    <td>18,000원</td>
+                  </tr>
+                  <tr>
+                    <th>등급할인액(VIP)</th>
+                    <td>-2,000원</td>
+                  </tr>
+                </table>
+
+                <br>
+                <hr>
+                <br>
+
+                <h3>최종 결제 금액</h3>
+
+                <h2 align="right">16,000원</h2>
+                
+                <br><br><br>
+                <input type="checkbox" name="resv_check"> 예약 티켓 정보 동의 <br>
+                <div style="margin-top: 5px;">
+                  &nbsp;&nbsp;&nbsp;&nbsp; 티켓의 가격, 할인 내역, 취소 정책을 최종확인하였으며, <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp; 구매에 동의합니다. (전자거래법 제8조 제2항)
+                </div>
+                
+                <br><br>
+                
+              </form>
+              
+              <div align="center">
+                  <button type="button" id="resv_form_btn" onclick="requestPay()">결제하기</button>
+                </div>
+              
+              <script>
+
+        function requestPay() {
+            IMP.init("imp00813715"); // 가맹점 식별코드
+            // IMP.request_pay(param, callback) 결제창 호출
+            IMP.request_pay({ // param
+                pg: "html5_inicis", // PG사 코드값 (이니시스 웹표준)
+                pay_method: "card", // 결제방법
+                merchant_uid: "merchant_" + new Date().getTime(), // 가맹점 주문번호 (중복되지 않게 임의로, 결제가 승인된 주문번호로는 재결제 불가)
+                name: "JV아트센터 2022 전시", // 결제창에 노출될 상품명 (PG사마다 차이 있지만, 16자 이내 권장)
+                amount: 5000, // 가격
+                buyer_email: "choigun159@naver.com", // 구매자 메일
+                buyer_name: "홍길동", // 구매자 이름
+                buyer_tel: "010-4242-4242", // 구매자 전화번호 (필수)
+            }, function (rsp) { // callback
+                // callback 속성으로 success (boolean) 반환함
+                if (rsp.success) {
+                    // 결제 성공 시 로직
+                    // imp_uid : 아임포트 고유 결제번호 (null 일 수 있음), merchant_uid : 가맹점 고유 주문번호
+                    alert("[결제 완료] => imp_uid : " + rsp.imp_uid + ", merchant_uid : " + rsp.merchant_uid);
+                } else {
+                    // 결제 실패 시 로직
+                    // 결제 실패시 코드 : error_code, 메세지 : error_msg
+                    alert("[결제 실패] => imp_uid : " + rsp.imp_uid + ", merchant_uid : " + rsp.merchant_uid + ", error_code : " + rsp.error_code + ", error_msg : " + rsp.error_msg);
+                }
+            });
+        }
+
+
+    </script>
+				
+            </div>
+            <br><br>
+            
+            
+          </div>
+        </div>
+        <div id="content_3">오른쪽여백</div>
+      </div>
+	
+	<%@ include file="../common/footerbar.jsp" %>
+	
+</body>
+</html>
