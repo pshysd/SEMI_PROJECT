@@ -224,7 +224,6 @@
 									})
 
 									function onClickHandler(event) {
-										// 글제목 클릭한놈 이전의 이전 형제 == 글 번호(숫자) 선택
 										const qno = event.currentTarget.previousElementSibling.previousElementSibling.textContent;
 										// 제이쿼리 못써서 지저분함니다 정리가능하신분 정리바람의나라
 
