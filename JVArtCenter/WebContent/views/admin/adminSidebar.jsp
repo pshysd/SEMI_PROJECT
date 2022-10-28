@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <% String contextPath = request.getContextPath(); %>
 <!-- 사이드메뉴바 -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%=contextPath%>/">
         
         <div class="sidebar-brand-text mx-3">JV artcenter admin</div>
     </a>
@@ -24,8 +24,8 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="">전시 목록</a>
-                <a class="collapse-item" href="">전시 추가</a>
+                <a class="collapse-item" href="<%=contextPath%>/list.ex">전시 목록</a>
+                <a class="collapse-item" href="<%=contextPath%>/insert.ex">전시 추가</a>
             </div>
         </div>
     </li>
@@ -43,7 +43,7 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
               
-                <a class="collapse-item" href="">회원 정보 조회</a>
+                <a class="collapse-item" href="<%=contextPath%>/list.mb">회원 정보 조회</a>
               
             </div>
         </div>
@@ -61,10 +61,10 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Login Screens:</h6>
-                <a class="collapse-item" href="">공지사항 목록</a>
-                <a class="collapse-item" href="">뉴스레터 목록</a>
-                <a class="collapse-item" href="">1대1문의 목록</a>
-                <a class="collapse-item" href="">리뷰목록</a>
+                <a class="collapse-item" href="<%=contextPath%>/list.no">공지사항</a>
+                <a class="collapse-item" href="<%=contextPath%>/list.nl">뉴스레터</a>
+                <a class="collapse-item" href="<%=contextPath%>/list.qna">1대1문의</a>
+                <a class="collapse-item" href="<%=contextPath%>/list.re">리뷰</a>
             </div>
         </div>
     </li>
