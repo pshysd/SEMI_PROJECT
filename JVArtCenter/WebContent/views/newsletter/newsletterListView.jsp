@@ -10,7 +10,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>JV 관리자 뉴스레터 게시판</title>
+<title>뉴스레터 목록 게시판</title>
 
 <!-- 아이콘/글씨체 링크-->
 <link href="resources/vendor/fontawesome-free/css/all.min.css"

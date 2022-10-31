@@ -1,5 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page
+	import="com.kh.common.model.vo.PageInfo, java.util.ArrayList, com.kh.member.model.vo.Member"%>
+<%
+	PageInfo pi = (PageInfo) request.getAttribute("pi");
+ArrayList<Member> list = (ArrayList<Member>) request.getAttribute("list");
+
+int currentPage = pi.getCurrentPage();
+int startPage = pi.getStartPage();
+int endPage = pi.getEndPage();
+int maxPage = pi.getMaxPage();
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,44 +77,87 @@
 						<thead>
 							<tr>
 								<th>회원번호</th>
+								<th>등급</th>
 								<th>아이디</th>
 								<th>이름</th>
-								<th>주소</th>
 								<th>성별</th>
 								<th>이메일</th>
-								<th>정보 수정</th>
+								<th>생년월일</th>
+								<th>연락처</th>
+								<th>가입일</th>
+								<th>탈퇴여부</th>
 							</tr>
 						</thead>
 						<tbody>
+							<%
+								if (list.isEmpty()) {
+							%>
+							<td colspan="10">조회 결과가 없습니다.</td>
+							<%
+								} else {
+							%>
+							<%
+								for (Member m : list) {
+							%>
 							<tr>
-								<td>3</td>
-								<td>user03</td>
-								<td>삼유저</td>
-								<td>영등포구청역 3번 출구</td>
-								<td>남</td>
-								<td>user03@kh.com</td>
-								<td><button type="button">수정하기</button></td>
+								<td><%=m.getMemNo() %></td>
+								<td><%=m.getGrCode() %></td>
+								<td><%=m.getMemId() %></td>
+								<td><%=m.getMemName() %></td>
+								<td><%=m.getGender() %></td>
+								<td><%=m.getEmail() %></td>
+								<td><%=m.getBirthDate() %></td>
+								<td><%=m.getPhone() %></td>
+								<td><%=m.getEnrollDate() %></td>
+								<td><%=m.getMemStatus() %></td>
+								<td><button type="button" onclick="location.href='<%=contextPath%>/updateForm.mb?mno=<%=m.getMemNo()%>'">수정하기</button>
 							</tr>
-							<tr>
-								<td>2</td>
-								<td>user02</td>
-								<td>이유저</td>
-								<td>강남역 5번 출구</td>
-								<td>여</td>
-								<td>user02@kh.com</td>
-								<td><button type="button">수정하기</button></td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>user01</td>
-								<td>일유저</td>
-								<td>수원역 11번 출구</td>
-								<td>남</td>
-								<td>user01@kh.com</td>
-								<td><button type="button">수정하기</button></td>
-							</tr>
+							<%
+								}
+							%>
+							<%
+								}
+							%>
 						</tbody>
 					</table>
+					<br> <br>
+
+					<div align="center">
+						<%
+							if (currentPage != 1) {
+						%>
+						<button
+							onclick="location.href='<%=contextPath%>/list.mb?currentPage=<%=currentPage - 1%>'">&lt;</button>
+						<%
+							}
+						%>
+						<%
+							for (int p = startPage; p <= endPage; p++) {
+						%>
+						<%
+							if (p != currentPage) {
+						%>
+						<button
+							onclick="location.href='<%=contextPath%>/list.mb?currentPage=<%=p%>'"><%=p%></button>
+						<%
+							} else {
+						%>
+						<button disabled><%=p%></button>
+						<%
+							}
+						%>
+						<%
+							}
+						%>
+						<%
+							if (currentPage != maxPage) {
+						%>
+						<button
+							onclick="location.href='<%=contextPath%>/list.mb?currentPage=<%=currentPage + 1%>'">&gt;</button>
+						<%
+							}
+						%>
+					</div>
 				</div>
 
 			</div>

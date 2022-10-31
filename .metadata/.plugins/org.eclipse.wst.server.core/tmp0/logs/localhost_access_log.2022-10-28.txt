@@ -959,3 +959,15 @@
 0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:29:31 +0900] "GET /jv/list.nl HTTP/1.1" 200 7762
 0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:29:32 +0900] "GET /jv/list.no HTTP/1.1" 200 7385
 0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:29:33 +0900] "GET /jv/list.qa HTTP/1.1" 404 821
+127.0.0.1 - - [28/Oct/2022:18:31:52 +0900] "GET / HTTP/1.1" 404 807
+0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:31:54 +0900] "GET /jv/list.qa HTTP/1.1" 404 821
+0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:32:01 +0900] "GET /jv/views/admin/adminMain.jsp HTTP/1.1" 200 12324
+0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:33:40 +0900] "GET /jv/resources/vendor/bootstrap/js/bootstrap.bundle.min.js.map HTTP/1.1" 200 316181
+0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:38:58 +0900] "GET /jv/list.no HTTP/1.1" 200 7386
+0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:38:58 +0900] "GET /jv/resources/vendor/bootstrap/js/bootstrap.bundle.min.js.map HTTP/1.1" 200 316181
+0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:39:01 +0900] "GET /jv/list.nl HTTP/1.1" 200 7763
+0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:39:01 +0900] "GET /jv/resources/vendor/bootstrap/js/bootstrap.bundle.min.js.map HTTP/1.1" 200 316181
+0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:39:27 +0900] "GET /jv/list.nl HTTP/1.1" 200 7778
+0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:39:27 +0900] "GET /jv/resources/vendor/bootstrap/js/bootstrap.bundle.min.js.map HTTP/1.1" 200 316181
+0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:39:40 +0900] "GET /jv/list.ex HTTP/1.1" 404 821
+0:0:0:0:0:0:0:1 - - [28/Oct/2022:18:42:44 +0900] "GET /jv/list.nl HTTP/1.1" 200 7778

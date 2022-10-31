@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>JV 관리자 페이지</title>
+    <title>1:1문의 상세조회 페이지</title>
     
     <!-- 아이콘/글씨체 링크-->
 	<link href="../../resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

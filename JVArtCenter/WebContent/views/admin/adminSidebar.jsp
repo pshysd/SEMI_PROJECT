@@ -24,7 +24,7 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="<%=contextPath%>/list.ex">전시 목록</a>
+                <a class="collapse-item" href="<%=contextPath%>/list.ex?currentPage=1">전시 목록</a>
                 <a class="collapse-item" href="<%=contextPath%>/insert.ex">전시 추가</a>
             </div>
         </div>
@@ -43,7 +43,7 @@
             data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
               
-                <a class="collapse-item" href="<%=contextPath%>/list.mb">회원 정보 조회</a>
+                <a class="collapse-item" href="<%=contextPath%>/list.mb?currentPage=1">회원 정보 조회</a>
               
             </div>
         </div>
