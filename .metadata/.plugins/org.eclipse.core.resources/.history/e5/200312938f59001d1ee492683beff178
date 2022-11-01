@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="selectListCount">
+		SELECT COUNT(*) COUNT
+		FROM MEMBER
+		WHERE MEM_ID NOT IN 'admin'
+	</entry>
+
+	<entry key="selectMemberList">
+		SELECT *
+		FROM(SELECT ROWNUM RNUM, A.*
+			 FROM(SELECT MEM_NO,
+			 			 GR_NAME,
+			 			 MEM_ID,
+			 			 MEM_NAME,
+			 			 GENDER,
+			 			 EMAIL,
+			 			 BIRTH_DATE,
+			 			 PHONE,
+			 			 ENROLL_DATE,
+			 			 MEM_STATUS
+			 	  FROM MEMBER
+			 	  JOIN GRADE USING (GR_CODE)
+			 	  ORDER BY MEM_NO DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectMember">
+	SELECT MEM_NO, GR_CODE, MEM_ID, MEM_PWD, MEM_NAME, GENDER, EMAIL, BIRTH_DATE, PHONE, ENROLL_DATE, MEM_STATUS
+	FROM MEMBER
+	WHERE MEM_NO = ?
+	</entry>
+	
+	<entry key="updateMember">
+	INSERT INTO MEMBER(MEM_NAME,
+					   GR_CODE,
+                       GENDER,
+                       PHONE,
+                       BIRTH_DATE,
+                       MEM_ID,
+                       EMAIL,
+                       MEM_STATUS)
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+	</entry>
+</properties>

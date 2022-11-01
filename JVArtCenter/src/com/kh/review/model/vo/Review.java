@@ -15,7 +15,6 @@ public class Review {
     public Review() {}
     public Review(int reviewNo, String memNo, String exNo, String reviewContent, int rating, Date reviewDate,
             String reviewStatus) {
-        super();
         this.reviewNo = reviewNo;
         this.memNo = memNo;
         this.exNo = exNo;
@@ -25,6 +24,14 @@ public class Review {
         this.reviewStatus = reviewStatus;
     }
     
+    public Review(int reviewNo, String memNo, String exNo, String reviewContent, int rating, Date reviewDate) {
+        this.reviewNo = reviewNo;
+        this.memNo = memNo;
+        this.exNo = exNo;
+        this.reviewContent = reviewContent;
+        this.rating = rating;
+        this.reviewDate = reviewDate;
+    }
     public int getReviewNo() {
         return reviewNo;
     }

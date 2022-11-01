@@ -62,19 +62,6 @@ public class Member {
         this.memStatus = memStatus;
     }
 
-    public Member(String grCode, String memId, String memName, String gender, String email, Date birthDate,
-            String phone, String memStatus) {
-        super();
-        this.grCode = grCode;
-        this.memId = memId;
-        this.memName = memName;
-        this.gender = gender;
-        this.email = email;
-        this.birthDate = birthDate;
-        this.phone = phone;
-        this.memStatus = memStatus;
-    }
-
     public int getMemNo() {
         return memNo;
     }

@@ -48,7 +48,6 @@ public class MemberListController extends HttpServlet {
         }
 
         PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
-        System.out.println(pi);
         // 회원 정보 받아올 arraylist -> 서비스로 연결
         ArrayList<Member> list = new MemberService().selectMemberList(pi);
 

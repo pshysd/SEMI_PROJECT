@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%String alertMsg = (String) session.getAttribute("alertMsg");%>
     <% String contextPath = request.getContextPath(); %>
 <!-- 사이드메뉴바 -->
+
+
+
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<%=contextPath%>/">
@@ -64,7 +68,7 @@
                 <a class="collapse-item" href="<%=contextPath%>/list.no">공지사항</a>
                 <a class="collapse-item" href="<%=contextPath%>/list.nl">뉴스레터</a>
                 <a class="collapse-item" href="<%=contextPath%>/list.qna">1대1문의</a>
-                <a class="collapse-item" href="<%=contextPath%>/list.re">리뷰</a>
+                <a class="collapse-item" href="<%=contextPath%>/list.re?currentPage=1">리뷰</a>
             </div>
         </div>
     </li>
@@ -95,4 +99,15 @@
 
 </ul>
 <!-- 사이드메뉴바 끝 -->
+	<script>
+		// script 태그 내에도 스크립틀릿과 같은 jsp 요소를 쓸 수 있다.
 
+		let msg = '<%=alertMsg%>';
+		// 성공적으로 로그인이 되었습니다 / "null"
+
+		if (msg !== 'null') {
+			alert(msg);
+			// 알림창을 띄워준 후에 session에 담긴 값을 지워줘야 한다
+	<%session.removeAttribute("alertMsg");%>
+		}
+	</script>

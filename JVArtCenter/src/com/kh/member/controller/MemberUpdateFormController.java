@@ -33,7 +33,6 @@ public class MemberUpdateFormController extends HttpServlet {
         int memNo = Integer.parseInt(request.getParameter("mno"));
 
         Member m = new MemberService().selectMember(memNo);
-
         request.setAttribute("m", m);
         request.getRequestDispatcher("views/member/memberUpdateForm.jsp").forward(request, response);
 

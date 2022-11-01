@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,10 +67,22 @@
 </head>
 
 <body>
+
 	<div class="wrapper">
 
 		<%@ include file="adminSidebar.jsp"%>
+	<script>
+		// script 태그 내에도 스크립틀릿과 같은 jsp 요소를 쓸 수 있다.
 
+		let msg = '<%=alertMsg%>';
+		// 성공적으로 로그인이 되었습니다 / "null"
+
+		if (msg !== 'null') {
+			alert(msg);
+			// 알림창을 띄워준 후에 session에 담긴 값을 지워줘야 한다
+	<%session.removeAttribute("alertMsg");%>
+		}
+	</script>
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 

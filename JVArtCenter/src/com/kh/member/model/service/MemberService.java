@@ -10,41 +10,64 @@ import com.kh.member.model.dao.MemberDao;
 import com.kh.member.model.vo.Member;
 
 public class MemberService {
-    
-    public int selectListCount() {
+
+    public Member loginMember(Member m){
         
         Connection conn = getConnection();
         
-        int listCount = new MemberDao().selectListCount(conn);
+        Member loginUser = new MemberDao().loginMember(conn, m);
         
         close(conn);
         
-        return listCount;
+        return loginUser;
     }
     
-    public ArrayList<Member> selectMemberList(PageInfo pi) {
-        
+    public int selectListCount() {
+
         Connection conn = getConnection();
-        
-        ArrayList<Member> list = new MemberDao().selectMemberList(conn, pi);
-        
+
+        int listCount = new MemberDao().selectListCount(conn);
+
         close(conn);
-        
+
+        return listCount;
+    }
+
+    public ArrayList<Member> selectMemberList(PageInfo pi) {
+
+        Connection conn = getConnection();
+
+        ArrayList<Member> list = new MemberDao().selectMemberList(conn, pi);
+
+        close(conn);
+
         return list;
     }
 
     public Member selectMember(int memNo) {
         Connection conn = getConnection();
-        
+
         Member m = new MemberDao().selectMember(conn, memNo);
-        
+
         close(conn);
-        
+
         return m;
     }
 
-    
+    public int updateMember(Member m) {
+        Connection conn = getConnection();
 
+        int result = new MemberDao().updateMember(conn, m);
 
-    
+        if (result > 0) {
+            commit(conn);
+        } else {
+            rollback(conn);
+        }
+
+        close(conn);
+        
+        return result;
+    }
+
 }
