@@ -1,0 +1,23 @@
+package com.kh.reservation.model.service;
+
+import static com.kh.common.JDBCTemplate.getConnection;
+
+import java.sql.Connection;
+
+import com.kh.statistics.model.vo.Sales;
+
+public class ReservationService {
+
+    public Sales selectSalesData() {
+        
+        Connection conn = getConnection();
+        
+        Sales sales = new ReservationDao().selectSalesData(conn);
+        
+        close(conn);
+        
+        return sales;
+    }
+    
+    
+}

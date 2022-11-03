@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%-- import 할 것들 --%>
+<%-- 스트립틀릿은 여기에 --%>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
 
@@ -27,62 +27,61 @@
 <!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> -->
 
 <!-- 아이콘/글씨체 링크-->
-<link href="../../resources/vendor/fontawesome-free/css/all.min.css"
+<link href="https://cdn.jsdelivr.net/npm/startbootstrap-sb-admin-2@4.1.4/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
 <link
 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
 	rel="stylesheet">
 
 <!-- CSS -->
-<link href="../../resources/css/sb-admin-2.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/startbootstrap-sb-admin-2@4.1.4/css/sb-admin-2.min.css" rel="stylesheet">
 
 <style>
-/* ---------- 전체 스타일 ---------- */
-/* 영역 사이즈 고정 */
-.wrapper {
-	width: 1900px;
-	/* 각자 필요한 길이만큼 height 속성값 수정해서 길이 조정 */
-	height: 2400px;
-}
+	/* ---------- 전체 스타일 ---------- */
+	/* 영역 사이즈 고정 */
+	.wrapper {
+		width: 1900px;
+		/* 각자 필요한 길이만큼 height 속성값 수정해서 길이 조정 */
+		height: 1050px;
+	}
+	
+	/* 1:1문의 커서 갖다대면 바뀌는거 */
+	.qnaTitle:hover {
+		cursor: pointer;
+		font-weight: bold;
+	}
+	
+	#content-wrapper #accordionSidebar {
+		width: 224px;
+	}
+	
+	#content-wrapper {
+		width: 1676px;
+	}
+	
+	#accordionSidebar, #content-wrapper {
+		float: left;
+		height: 100%;
+	}
+	
+	/* ----- 추가한 스타일은 여기에 ----- */
 
-/* 1:1문의 커서 갖다대면 바뀌는거 */
-.qnaTitle:hover {
-	cursor: pointer;
-	font-weight: bold;
-}
-
-#content-wrapper #accordionSidebar {
-	width: 224px;
-}
-
-#content-wrapper {
-	width: 1676px;
-}
-
-#accordionSidebar, #content-wrapper {
-	float: left;
-	height: 100%;
-}
+	.sales {
+		width: 50%;
+		height: 100%;
+		float:left;
+	}
+	.sales div {
+		float: left;
+	}
 </style>
 </head>
 
 <body>
-
 	<div class="wrapper">
 
 		<%@ include file="adminSidebar.jsp"%>
-	<script>
-		// script 태그 내에도 스크립틀릿과 같은 jsp 요소를 쓸 수 있다.
 
-		let msg = '<%=alertMsg%>';
-		// 성공적으로 로그인이 되었습니다 / "null"
-
-		if (msg !== 'null') {
-			alert(msg);
-			// 알림창을 띄워준 후에 session에 담긴 값을 지워줘야 한다
-	<%session.removeAttribute("alertMsg");%>
-		}
-	</script>
 		<!-- Content Wrapper -->
 		<div id="content-wrapper" class="d-flex flex-column">
 
@@ -90,12 +89,17 @@
 			<div id="content">
 
 				<%@ include file="adminTopbar.jsp"%>
-
+				<!-- 오늘 매출, 주간 매출 -->
 				<div id="admin_contents">
-					<!-- 첫번째 줄 // 뭔 매출이였지 일단 오늘 -->
 					<div class="rows">
-						<div id="today">TODAY</div>
-						<div id="todayee">₩ 50,000</div>
+						<div class="sales">
+							<div>TODAY</div>
+							<div>₩ 500000</div>
+						</div>
+						<div class="sales">
+							<div>WEEKS</div>
+							<div>₩ 123120123</div>
+						</div>
 					</div>
 
 					<!-- 두번째 줄 // 월간 매출, 성별별 통계 -->
@@ -108,19 +112,49 @@
 						</div>
 					</div>
 					<!-- 차트 js영역 -->
-					<script type="text/javascript">
-									var lineContext = document.getElementById('perMonth')
-										.getContext('2d');
-									var perMonth = new Chart(lineContext, {
-										type: 'line', // 차트의 형태
-										data: { // 차트에 들어갈 데이터
-											labels: [
-												//x 축
-												'7월', '8월', '9월', '10월', '11월', '12월'],
-											datasets: [{ //데이터
+					<script>
+						let today_sales = '';
+						let week_sales = '';
+						let month_sales = '';
+						$(() => {
+							console.log();
+							selectSalesData();
+							selectGenderData();
+						})
+						function selectSalesData(){
+							$.ajax({
+								url : '<%=contextPath%>/salesData.st',
+								data : {},
+								type : 'get',
+								success : ((res) => {
+									today_sales = res.today
+									week_sales = res.week
+									month_sales = res.month
+								}),
+								error : () => console.log('매출 통계 데이터 AJAX 통신 중 에러 발생')
+							})
+						}
+
+						function selectGenderData() {
+							$.ajax({
+								url : '<%=contextPath%>/genderData.st',
+								data : {},
+								type : 'get',
+								success : (res) => {
+
+								},
+								error : () => console.log('성별별 통계 데이터 AJAX 통신 중 에러 발생')
+							})
+						}
+						var perMonth = new Chart(document.getElementById('perMonth').getContext('2d'),{
+							type: 'line', // 차트의 형태
+							data: { // 차트에 들어갈 데이터
+										// x축
+								labels: ['7월', '8월', '9월', '10월', '11월', '12월'],
+								datasets: [{ //데이터
 												label: '월간 매출 추이', //차트 제목
 												fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-												data: [1000000, 1200000, 3300000,
+												data: [123123, 1200000, 3300000,
 													5500000, 5200000, 7000000, 12000000 //x축 label에 대응되는 데이터 값
 												],
 												backgroundColor: [
@@ -144,9 +178,8 @@
 											}
 										}
 									});
-									var CircleContext = document.getElementById('gender')
-										.getContext('2d');
-									var gender = new Chart(CircleContext, {
+									var gender = new Chart(document.getElementById('gender')
+										.getContext('2d'), {
 										type: 'doughnut', // 차트의 형태
 										data: { // 차트에 들어갈 데이터
 											labels: [
@@ -253,7 +286,7 @@
 
 	</div>
 
-	<%@ include file="adminScript.html"%>
+	<%@ include file="../admin/adminScript.html"%>
 
 </body>
 
