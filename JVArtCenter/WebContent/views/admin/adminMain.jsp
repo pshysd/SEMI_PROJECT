@@ -67,12 +67,10 @@
 	/* ----- 추가한 스타일은 여기에 ----- */
 
 	.sales {
-		width: 50%;
-		height: 100%;
+		width: 45%;
+		height: 90%;
 		float:left;
-	}
-	.sales div {
-		float: left;
+		margin: 20px;
 	}
 </style>
 </head>
@@ -94,11 +92,11 @@
 					<div class="rows">
 						<div class="sales">
 							<div>TODAY</div>
-							<div>₩ 500000</div>
+							<div class="today"></div>
 						</div>
 						<div class="sales">
 							<div>WEEKS</div>
-							<div>₩ 123120123</div>
+							<div class="week">₩</div>
 						</div>
 					</div>
 
@@ -113,31 +111,60 @@
 					</div>
 					<!-- 차트 js영역 -->
 					<script>
-						let today_sales = '';
-						let week_sales = '';
-						let month_sales = '';
 						$(() => {
-							console.log();
-							selectSalesData();
-							selectGenderData();
+							selectSalesPerMonth();
+							selectSales();
+							selectGender();
+							
 						})
-						function selectSalesData(){
+						function selectSales(){
 							$.ajax({
-								url : '<%=contextPath%>/salesData.st',
+								url : '<%=contextPath%>/sales.st',
 								data : {},
 								type : 'get',
 								success : ((res) => {
-									today_sales = res.today
-									week_sales = res.week
-									month_sales = res.month
+								$('.sales')
+								.eq(0)
+								.children('.today')
+								.html('₩ '+res.todaySales);
+
+								$('.sales')
+								.eq(1)
+								.children('.week')
+								.html('₩ '+ res.weekSales);
 								}),
 								error : () => console.log('매출 통계 데이터 AJAX 통신 중 에러 발생')
 							})
 						}
-
-						function selectGenderData() {
+						
+						function selectSalesPerMonth() {
 							$.ajax({
-								url : '<%=contextPath%>/genderData.st',
+								url : '<%=contextPath%>/salesPerMon.st',
+								data : {},
+								type : 'get',
+								success : (res) => {
+									
+						var perMonth = new Chart(lineCtx,lineConfig);
+									res.sort((a,b) => a.dateRange - b.dateRange);
+
+									let labels = lineConfig.data.labels;
+									let data = lineConfig.data.datasets[0].data;
+
+									res.forEach(el => {
+										labels.push(el.dateRange)
+										data.push(el.total);
+									})
+								},
+						
+								error : () => console.log('에러발생 삐용삐용')
+							}
+							)
+						}
+					
+					
+						function selectGender() {
+							$.ajax({
+								url : '<%=contextPath%>/gender.st',
 								data : {},
 								type : 'get',
 								success : (res) => {
@@ -146,17 +173,17 @@
 								error : () => console.log('성별별 통계 데이터 AJAX 통신 중 에러 발생')
 							})
 						}
-						var perMonth = new Chart(document.getElementById('perMonth').getContext('2d'),{
+						var lineCtx = document.getElementById('perMonth').getContext('2d');
+						var lineConfig = {
 							type: 'line', // 차트의 형태
 							data: { // 차트에 들어갈 데이터
 										// x축
-								labels: ['7월', '8월', '9월', '10월', '11월', '12월'],
+								labels: [],
+
 								datasets: [{ //데이터
 												label: '월간 매출 추이', //차트 제목
 												fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-												data: [123123, 1200000, 3300000,
-													5500000, 5200000, 7000000, 12000000 //x축 label에 대응되는 데이터 값
-												],
+												data: [],//x축 label에 대응되는 데이터 값
 												backgroundColor: [
 													//색상
 													'rgba(255, 99, 132, 0.2)'],
@@ -164,7 +191,7 @@
 													//경계선 색상
 													'rgba(255, 99, 132, 1)'],
 												//경계선 굵기
-												borderWidth: 3
+												borderWidth: 2
 											}]
 										},
 										options: {
@@ -177,7 +204,9 @@
 												}]
 											}
 										}
-									});
+									};
+						
+
 									var gender = new Chart(document.getElementById('gender')
 										.getContext('2d'), {
 										type: 'doughnut', // 차트의 형태
@@ -270,10 +299,7 @@
 									})
 
 									function onClickHandler(event) {
-										// 글제목 클릭한놈 이전의 이전 형제 == 글 번호(숫자) 선택
 										const qno = event.currentTarget.previousElementSibling.previousElementSibling.textContent;
-										// 제이쿼리 못써서 지저분함니다 정리가능하신분 정리바람의나라
-
 										location.href="/jv/detail.qna?qno="+qno;
 									}
 					</script>

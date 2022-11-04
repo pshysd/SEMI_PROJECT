@@ -3,24 +3,44 @@ package com.kh.reservation.model.service;
 import static com.kh.common.JDBCTemplate.*;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import com.kh.reservation.model.dao.ReservationDao;
+import com.kh.reservation.model.vo.Sales;
 
 public class ReservationService {
 
-    public int selectTodaySales() {
+    public Sales selectTodaySales() {
         
         Connection conn = getConnection();
         
-        int todaySales = new ReservationDao().selectTodaySales(conn);
+        Sales todaySales = new ReservationDao().selectTodaySales(conn);
         
         close(conn);
         
         return todaySales;
     }
 
-    public int selectWeekSales() {
-        return 0;
+    public Sales selectWeekSales() {
+        
+        Connection conn = getConnection();
+        
+        Sales weekSales = new ReservationDao().selectWeekSales(conn);
+        
+        close(conn);
+        
+        return weekSales;
+    }
+
+    public ArrayList<Sales> selectSalesPerMonth() {
+        
+        Connection conn = getConnection();
+                
+        ArrayList<Sales> list = new ReservationDao().selectSalesPerMonth(conn);
+        
+        close(conn);
+        
+        return list;
     }
     
     

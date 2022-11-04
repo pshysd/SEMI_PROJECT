@@ -6,10 +6,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import static com.kh.common.JDBCTemplate.*;
 
+import com.kh.reservation.model.vo.Sales;
 import com.kh.review.model.dao.ReviewDao;
 
 public class ReservationDao {
@@ -25,27 +27,69 @@ public class ReservationDao {
         }
     }
 
-    public int selectTodaySales(Connection conn) {
+    public Sales selectTodaySales(Connection conn) {
         PreparedStatement pstmt = null;
         ResultSet rset = null;
         String sql = prop.getProperty("selectTodaySales");
-        int todaySales = 0;
-        
+        Sales todaySales = new Sales();
+
         try {
             pstmt = conn.prepareStatement(sql);
             rset = pstmt.executeQuery();
-            
-            if(rset.next()) {
-                todaySales = rset.getInt("TOTAL");
+
+            if (rset.next()) {
+                todaySales.setTotal(rset.getInt("TOTAL"));
             }
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }finally{
+        } finally {
             close(rset);
             close(pstmt);
         }
         return todaySales;
     }
-    
-    
+
+    public Sales selectWeekSales(Connection conn) {
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        Sales weekSales = new Sales();
+        String sql = prop.getProperty("selectWeekSales");
+        try {
+            pstmt = conn.prepareStatement(sql);
+            rset = pstmt.executeQuery();
+
+            if (rset.next()) {
+                weekSales.setTotal(rset.getInt("TOTAL"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            close(rset);
+            close(pstmt);
+        }
+        return weekSales;
+    }
+
+    public ArrayList<Sales> selectSalesPerMonth(Connection conn) {
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        ArrayList<Sales> list = new ArrayList<>();
+        String sql = prop.getProperty("selectSalesPerMonth");
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+            rset = pstmt.executeQuery();
+            while (rset.next()) {
+                list.add(new Sales(rset.getInt("TOTAL"),
+                        rset.getString("DATE_RANGE")));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            close(rset);
+            close(pstmt);
+        }
+        return list;
+    }
+
 }

@@ -1,8 +1,6 @@
 package com.kh.reservation.controller;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,15 +8,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import com.google.gson.JsonObject;
 import com.kh.reservation.model.service.ReservationService;
+import com.kh.reservation.model.vo.Sales;
 
 /**
  * Servlet implementation class AjaxSalesDataController
  */
-@WebServlet("/salesData.st")
+@WebServlet("/sales.st")
 public class AjaxSalesController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -34,14 +33,15 @@ public class AjaxSalesController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    
-	    int todaySales = new ReservationService().selectTodaySales();
-	    int weekSales = new ReservationService().selectWeekSales();
+	    Sales todaySales = new ReservationService().selectTodaySales();
+	    Sales weekSales = new ReservationService().selectWeekSales();
 	    
 	    response.setContentType("application/json; charset=UTF-8");
-
+	    
 	    JSONObject json = new JSONObject();
-	    json.put("todaySales", todaySales);
-	    json.put("weekSales", weekSales);
+	    
+	    json.put("todaySales", todaySales.getTotal());
+	    json.put("weekSales", weekSales.getTotal());
 	    
 	    response.getWriter().print(json);
 	}
