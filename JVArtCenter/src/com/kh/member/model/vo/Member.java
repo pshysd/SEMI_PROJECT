@@ -11,16 +11,17 @@ public class Member {
     private String memName;
     private String gender;
     private String email;
-    private Date birthDate;
+    private String birthDate;
     private String phone;
     private Date enrollDate;
     private String memStatus;
 
     public Member() {
     }
-
+    //회원조회용
     public Member(int memNo, String grCode, String memId, String memPwd, String memName, String gender, String email,
-            Date birthDate, String phone, Date enrollDate, String memStatus) {
+            String birthDate, String phone, Date enrollDate, String memStatus) {
+        super();
         this.memNo = memNo;
         this.grCode = grCode;
         this.memId = memId;
@@ -34,7 +35,42 @@ public class Member {
         this.memStatus = memStatus;
     }
 
-    public Member(int memNo, String grCode, String memId, String memName, String gender, String email, Date birthDate,
+
+    //비밀번호 찾기
+    public Member(String memPwd) {this.memPwd = memPwd;}
+    
+    public Member(int memNo, String grCode, String memId, String memPwd, String memName, String gender, String email,
+            String birthDate, String phone, Date enrollDate) {
+        super();
+        this.memNo = memNo;
+        this.grCode = grCode;
+        this.memId = memId;
+        this.memPwd = memPwd;
+        this.memName = memName;
+        this.gender = gender;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.phone = phone;
+        this.enrollDate = enrollDate;
+        
+    }
+    
+    //회원가입용 생성자 - 아이디, 패스워드, 이름, 휴대폰번호, 이메일, 성별, 생년월일
+    public Member(String memId, String memPwd, String memName, String phone, String email, String gender, String birthDate) {
+        super();
+        this.memId = memId;
+        this.memPwd = memPwd;
+        this.memName = memName;
+        this.phone = phone;
+        this.email = email;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        
+        
+    }
+
+
+    public Member(int memNo, String grCode, String memId, String memName, String gender, String email, String birthDate,
             String phone, Date enrollDate, String memStatus) {
         super();
         this.memNo = memNo;
@@ -49,7 +85,7 @@ public class Member {
         this.memStatus = memStatus;
     }
 
-    public Member(int memNo, String grCode, String memId, String memName, String gender, String email, Date birthDate,
+    public Member(int memNo, String grCode, String memId, String memName, String gender, String email, String birthDate,
             String phone, String memStatus) {
         this.memNo = memNo;
         this.grCode = grCode;
@@ -118,11 +154,11 @@ public class Member {
         this.email = email;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 

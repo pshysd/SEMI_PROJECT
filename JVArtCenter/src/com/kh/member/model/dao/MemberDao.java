@@ -1,5 +1,7 @@
 package com.kh.member.model.dao;
 
+import static com.kh.common.JDBCTemplate.close;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -8,9 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
-import static com.kh.common.JDBCTemplate.*;
 
 import com.kh.common.model.vo.PageInfo;
+import com.kh.member.model.vo.Grade;
 import com.kh.member.model.vo.Member;
 
 public class MemberDao {
@@ -56,7 +58,7 @@ public class MemberDao {
                         rset.getString("MEM_NAME"),
                         rset.getString("GENDER"),
                         rset.getString("EMAIL"),
-                        rset.getDate("BIRTH_DATE"),
+                        rset.getString("BIRTH_DATE"),
                         rset.getString("PHONE"),
                         rset.getDate("ENROLL_DATE"),
                         rset.getString("MEM_STATUS"));
@@ -80,6 +82,131 @@ public class MemberDao {
 
     }
 
+    // 아이디 찾기
+
+    public String findId(Connection conn, Member m) {
+
+        String memId = "";
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+
+        String sql = prop.getProperty("findUserId");
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, m.getMemName());
+            pstmt.setString(2, m.getPhone());
+
+            rset = pstmt.executeQuery();
+
+            if (rset.next()) {
+
+                memId = rset.getString("MEM_ID");
+
+            }
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        } finally {
+            close(rset);
+            close(pstmt);
+        }
+        return memId;
+    }
+
+    // 비밀번호 찾기
+    public Member findPwd(Connection conn, Member m) {
+
+        Member findPwd = null;
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+
+        String sql = prop.getProperty("findPwd");
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, m.getMemId());
+            pstmt.setString(2, m.getMemName());
+            pstmt.setString(3, m.getPhone());
+
+            rset = pstmt.executeQuery();
+            if (rset.next()) {
+                findPwd = new Member(rset.getString("MEM_PWD"));
+            }
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        } finally {
+            close(rset);
+            close(pstmt);
+        }
+
+        return findPwd;
+    }
+
+    // 회원가입 서비스
+    public int insertMember(Connection conn, Member m) {
+
+        int result = 0;
+        PreparedStatement pstmt = null;
+        String sql = prop.getProperty("insertMember");
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, m.getMemId());
+            pstmt.setString(2, m.getMemPwd());
+            pstmt.setString(3, m.getMemName());
+            pstmt.setString(4, m.getPhone());
+            pstmt.setString(5, m.getEmail());
+            pstmt.setString(6, m.getGender());
+            pstmt.setString(7, m.getBirthDate());
+
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(pstmt);
+        }
+        return result;
+
+    }
+
+    public Grade selectGrade(Connection conn, String grCode) {
+
+        Grade g = null;
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+
+        String sql = prop.getProperty("selectGrade");
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, grCode);
+
+            rset = pstmt.executeQuery();
+
+            if (rset.next()) {
+
+                g = new Grade(rset.getString("GR_CODE"), rset.getString("GR_NAME"), rset.getInt("DISCOUNT"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(rset);
+            close(pstmt);
+        }
+
+        return g;
+    }
+
     public int selectListCount(Connection conn) {
         PreparedStatement pstmt = null;
         ResultSet rset = null;
@@ -100,6 +227,38 @@ public class MemberDao {
             close(pstmt);
         }
         return listCount;
+    }
+
+    public int idCheck(Connection conn, String checkId) {
+
+        // SELECT 문 => ResultSet 객체 (숫자 하나)
+
+        int count = 0;
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+
+        String sql = prop.getProperty("idCheck");
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, checkId);
+
+            rset = pstmt.executeQuery();
+
+            if (rset.next()) {
+                count = rset.getInt("COUNT(*)");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+            close(rset);
+            close(pstmt);
+        }
+
+        return count; // 중복된 아이디가 있다면 1, 없다면 0
     }
 
     public ArrayList<Member> selectMemberList(Connection conn, PageInfo pi) {
@@ -127,7 +286,7 @@ public class MemberDao {
                         rset.getString("MEM_NAME"),
                         rset.getString("GENDER"),
                         rset.getString("EMAIL"),
-                        rset.getDate("BIRTH_DATE"),
+                        rset.getString("BIRTH_DATE"),
                         rset.getString("PHONE"),
                         rset.getDate("ENROLL_DATE"),
                         rset.getString("MEM_STATUS")));
@@ -158,7 +317,7 @@ public class MemberDao {
                         rset.getString("MEM_NAME"),
                         rset.getString("GENDER"),
                         rset.getString("EMAIL"),
-                        rset.getDate("BIRTH_DATE"),
+                        rset.getString("BIRTH_DATE"),
                         rset.getString("PHONE"),
                         rset.getString("MEM_STATUS"));
             }
@@ -175,25 +334,47 @@ public class MemberDao {
         PreparedStatement pstmt = null;
         String sql = prop.getProperty("updateMember");
         int result = 0;
-                try {
-                    pstmt = conn.prepareStatement(sql);
-                    pstmt.setString(1, m.getMemName());
-                    pstmt.setString(2, m.getGrCode());
-                    pstmt.setString(3, m.getGender());
-                    pstmt.setString(4, m.getPhone());
-                    pstmt.setDate(5, m.getBirthDate());
-                    pstmt.setString(6, m.getMemId());
-                    pstmt.setString(7, m.getEmail());
-                    pstmt.setString(8, m.getMemStatus());
-                    pstmt.setInt(9, m.getMemNo());
-                    
-                    result = pstmt.executeUpdate();
-                }catch(SQLException e) {
-                    System.out.println(e.getMessage());
-                }finally {
-                    close(pstmt);
-                }
-        return result;
-   }
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, m.getMemName());
+            pstmt.setString(2, m.getGrCode());
+            pstmt.setString(3, m.getGender());
+            pstmt.setString(4, m.getPhone());
+            pstmt.setString(5, m.getBirthDate());
+            pstmt.setString(6, m.getMemId());
+            pstmt.setString(7, m.getEmail());
+            pstmt.setString(8, m.getMemStatus());
+            pstmt.setInt(9, m.getMemNo());
 
+            result = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            close(pstmt);
+        }
+        return result;
+    }
+
+    public int deleteMember(Connection conn, int memNo) {
+
+        int result = 0;
+        PreparedStatement pstmt = null;
+
+        String sql = prop.getProperty("deleteMember");
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setInt(1, memNo);
+
+            result = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        } finally {
+            close(pstmt);
+        }
+        return result;
+    }
 }

@@ -72,6 +72,10 @@
 		float:left;
 		margin: 20px;
 	}
+
+	.rows{
+		margin-top: 50px;
+	}
 </style>
 </head>
 
@@ -109,14 +113,18 @@
 							<canvas id="gender"></canvas>
 						</div>
 					</div>
-					<!-- 차트 js영역 -->
+					
+					<!-- chart.js영역 -->
 					<script>
 						$(() => {
-							selectSalesPerMonth();
 							selectSales();
-							selectGender();
-							
+							selectSalesPerMonth();
+							reservationsPerGender();
 						})
+
+						//  ------------------------------------------------- 일 매출, 주간 매출 ------------------------------------
+
+						
 						function selectSales(){
 							$.ajax({
 								url : '<%=contextPath%>/sales.st',
@@ -136,7 +144,11 @@
 								error : () => console.log('매출 통계 데이터 AJAX 통신 중 에러 발생')
 							})
 						}
+
 						
+						//  ------------------------------------------------- 월간 매출 그래프 ------------------------------------						
+
+
 						function selectSalesPerMonth() {
 							$.ajax({
 								url : '<%=contextPath%>/salesPerMon.st',
@@ -144,7 +156,7 @@
 								type : 'get',
 								success : (res) => {
 									
-						var perMonth = new Chart(lineCtx,lineConfig);
+						const perMonth = new Chart(lineCtx,lineConfig);
 									res.sort((a,b) => a.dateRange - b.dateRange);
 
 									let labels = lineConfig.data.labels;
@@ -157,23 +169,35 @@
 								},
 						
 								error : () => console.log('에러발생 삐용삐용')
-							}
-							)
-						}
-					
-					
-						function selectGender() {
-							$.ajax({
-								url : '<%=contextPath%>/gender.st',
-								data : {},
-								type : 'get',
-								success : (res) => {
-
-								},
-								error : () => console.log('성별별 통계 데이터 AJAX 통신 중 에러 발생')
 							})
 						}
+					
+						//  ------------------------------------------------- 월간 매출 그래프 ------------------------------------											
+					function reservationsPerGender(){
+						$.ajax({
+							url : '<%=contextPath%>/ratePerGen.st',
+							data : {},
+							type : 'get',
+							success : (res) => {
+
+								const labels = circleConfig.data.labels;
+								const data = circleConfig.data.datasets[0].data;
+
+								res.forEach(el => {
+									labels.push(el.label);
+									data.push(el.rate);
+								})
+
+								const perGender = new Chart(circleCtx, circleConfig);
+							},
+							error : () => console.log('성별 통계 AJAX 통신 중 에러발생')
+						})
+					}
+
+
+					// 바형 그래프
 						var lineCtx = document.getElementById('perMonth').getContext('2d');
+
 						var lineConfig = {
 							type: 'line', // 차트의 형태
 							data: { // 차트에 들어갈 데이터
@@ -206,55 +230,47 @@
 										}
 									};
 						
+						var circleCtx = document.getElementById('gender').getContext('2d');
 
-									var gender = new Chart(document.getElementById('gender')
-										.getContext('2d'), {
-										type: 'doughnut', // 차트의 형태
-										data: { // 차트에 들어갈 데이터
-											labels: [
-												//x 축
-												'20대 남성', '20대 여성', '30대 남성', '30대 여성'],
-											datasets: [{ //데이터
-												label: '성별별 예매율', //차트 제목
-												fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-												data: [10, 30, 20, 40 //x축 label에 대응되는 데이터 값
-												],
-												backgroundColor: [
-													//색상
-													'rgba(255, 99, 132, 0.2)',
-													'rgba(54, 162, 235, 0.2)',
-													'rgba(255, 206, 86, 0.2)',
-													'rgba(75, 192, 192, 0.2)',
-													'rgba(153, 102, 255, 0.2)',
-													'rgba(255, 159, 64, 0.2)'],
-												borderColor: [
-													//경계선 색상
-													'rgba(255, 99, 132, 1)',
-													'rgba(54, 162, 235, 1)',
-													'rgba(255, 206, 86, 1)',
-													'rgba(75, 192, 192, 1)',
-													'rgba(153, 102, 255, 1)',
-													'rgba(255, 159, 64, 1)'],
-												borderWidth: 1
-												//경계선 굵기
+						var circleConfig = {
+							type: 'doughnut', // 차트의 형태
+							data: { // 차트에 들어갈 데이터
+								labels: [], // x축
+								datasets: [{ //데이터
+									label: '성별별 예매율', //차트 제목
+									data: [],
+									backgroundColor: ['rgba(255, 99, 132, 1)',
+													  'rgba(54, 162, 235, 1)',
+													  'rgba(255, 206, 86, 1)',
+													  'rgba(75, 192, 192, 1)',
+													  'rgba(153, 102, 255, 1)',
+													  'rgba(255, 159, 64, 1)'],
+								borderColor: [	//경계선 색상
+												'rgba(255, 99, 132, 1)',
+												'rgba(54, 162, 235, 1)',
+												'rgba(255, 206, 86, 1)',
+												'rgba(75, 192, 192, 1)',
+												'rgba(153, 102, 255, 1)',
+												'rgba(255, 159, 64, 1)'],
+								borderWidth: 1 //경계선 굵기								
 											}]
-										},
-										options: {
-											maintainAspectRatio: false,
-											scales: {
-												yAxes: [{
-													ticks: {
-														beginAtZero: true
-													}
-												}]
-											}
-										}
-									});
-								</script>
+							}, // data 끝
+
+							options: {
+								maintainAspectRatio: false,
+								scales: {
+									yAxes: [{
+										ticks: {beginAtZero: true}
+									}]
+								}
+								} // option 끝
+							};
+
+					</script>
 					<!-- 세번째 줄 // 답변 대기중인 1:1 문의
 						-> 글 제목 클릭 시 상세페이지
 					-->
-					<div>
+					<div class="rows">
 						<table style="text-align:center;">
 							<thead>
 								<tr>

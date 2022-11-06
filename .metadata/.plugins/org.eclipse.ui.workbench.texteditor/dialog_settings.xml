@@ -6,8 +6,14 @@
 		<item key="wholeword" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="delete"/>
+			<item value="selectMemberlist"/>
+			<item value="selectmember"/>
+			<item value="deletemember"/>
+			<item value="selectmemberlist"/>
+			<item value="idcheck"/>
+			<item value="selectGrade"/>
 			<item value="contextPath"/>
-			<item value="&lt;style&gt;"/>
 		</list>
 		<list key="replacehistory">
 		</list>

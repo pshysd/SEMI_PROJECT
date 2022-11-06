@@ -37,7 +37,7 @@ public class MemberUpdateController extends HttpServlet {
 	    String memName = request.getParameter("memName");
 	    String gender = request.getParameter("gender");
 	    String email = request.getParameter("email");
-	    Date birthDate = Date.valueOf(request.getParameter("birthDate"));
+	    String birthDate = request.getParameter("birthDate");
 	    String phone = request.getParameter("phone");
 	    String memStatus = request.getParameter("status");
 	    
