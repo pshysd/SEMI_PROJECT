@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%-- import 할 것들 --%>
+<%@ include file="adminPath.jsp"%>
 <%-- 스트립틀릿은 여기에 --%>
 
 <!DOCTYPE html>
@@ -271,7 +272,7 @@
 						-> 글 제목 클릭 시 상세페이지
 					-->
 					<div class="rows">
-						<table style="text-align:center;">
+						<table style="text-align:center;" class="qnaList">
 							<thead>
 								<tr>
 									<th>글 번호</th>
@@ -279,45 +280,42 @@
 									<th>글 제목</th>
 									<th>작성자</th>
 									<th>날짜</th>
+									<th>답변하기</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>31</td>
-									<td>결제</td>
-									<td class="qnaTitle">할인해주세요</td>
-									<td>진상1</td>
-									<td>2022-10-17</td>
-								</tr>
-								<tr>
-									<td>22</td>
-									<td>기타</td>
-									<td class="qnaTitle">직원분 맘에들어서그러는데 연락처좀알려주세요</td>
-									<td>진상2</td>
-									<td>2022-10-13</td>
-								</tr>
-								<tr>
-									<td>15</td>
-									<td>전시</td>
-									<td class="qnaTitle">제가해도이거보다잘할거같은데</td>
-									<td>진상3</td>
-									<td>2022-10-11</td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
 
 					<script>
-									const qnaTitles = document.querySelectorAll('.qnaTitle');
+						$(() => {
+							qna;
+						})
+						const tbody = document.querySelector('.qnaList>tbody');
+						let button = ""
+						let tr = ""
+						let td = ""
+							const qna = $.ajax({
+							url : '<%=contextPath%>/admin_main_list.qna',
+							data : [],
+							type : 'get',
+							success : (res) => {
+								res.forEach((el) => {
+									tr = `<tr>`
+										+'<td>'+el.qnaNo+'</td>'
+										+'<td>'+el.qnaCategory+'</td>'
+										+'<td>'+el.qnaTitle+'</td>'
+										+'<td>'+el.memNo+'</td>'
+										+'<td>'+el.qnaDate+'</td>'
+										+'<td><button onclick=location.href="<%=contextPath%>/admin_enrollForm.qna?qno='+el.qnaNo+'">답변하기</button></td>'
+										+'</tr>'
+									tbody.innerHTML+=tr;
+								})
+						},
+							error : () => console.log('1:1문의 AJAX 통신중 문제 발생')
+						})
 
-									qnaTitles.forEach(item => {
-										item.addEventListener('click', onClickHandler);
-									})
-
-									function onClickHandler(event) {
-										const qno = event.currentTarget.previousElementSibling.previousElementSibling.textContent;
-										location.href="/jv/detail.qna?qno="+qno;
-									}
 					</script>
 				</div>
 

@@ -1,15 +1,13 @@
 package com.kh.exhibition.model.vo;
 
-import java.sql.Date;
-
 public class Exhibition {
     
     private int exNo;
     private String lcCode;
     private String exTitle;
     private String exContent;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private int price;
     private String artists;
     private String exThumbnail;
@@ -17,7 +15,7 @@ public class Exhibition {
     private String exStatus;
     
     public Exhibition() {}
-    public Exhibition(int exNo, String lcCode, String exTitle, String exContent, Date startDate, Date endDate,
+    public Exhibition(int exNo, String lcCode, String exTitle, String exContent, String startDate, String endDate,
             int price, String artists, String exThumbnail, String exImage, String exStatus) {
         super();
         this.exNo = exNo;
@@ -31,6 +29,29 @@ public class Exhibition {
         this.exThumbnail = exThumbnail;
         this.exImage = exImage;
         this.exStatus = exStatus;
+    }
+
+    // 예매 가능한 전시 목록 조회용
+    public Exhibition(int exNo, String lcCode, String exTitle, String exContent, String startDate, String endDate, String exThumbnail, String artists) {
+        super();
+        this.exNo = exNo;
+        this.lcCode = lcCode;
+        this.exTitle = exTitle;
+        this.exContent = exContent;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.exThumbnail = exThumbnail;
+        this.artists = artists;
+    }
+    // 예매한 전시 정보 조회용
+    public Exhibition(String lcCode, String exTitle, String startDate, String endDate, int price, String exThumbnail) {
+        super();
+        this.lcCode = lcCode;
+        this.exTitle = exTitle;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.price = price;
+        this.exThumbnail = exThumbnail;
     }
     
     public int getExNo() {
@@ -57,16 +78,16 @@ public class Exhibition {
     public void setExContent(String exContent) {
         this.exContent = exContent;
     }
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
     public int getPrice() {

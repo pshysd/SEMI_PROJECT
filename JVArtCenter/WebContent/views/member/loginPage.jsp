@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.kh.member.model.vo.Member" %>
+    pageEncoding="UTF-8" %>
 <%@ include file="../common/menubar.jsp" %>
 	
 <% 	Cookie[] cookies = request.getCookies();
@@ -98,7 +98,7 @@
      
 		    <div id="content_2">
 
-		  	    <form id="login-form" action="<%= contextPath %>/login.me" method="post">
+		  	    <form id="login-form" action="<%=contextPath%>/login.me" method="post">
 		        
 		            <p id="login">로그인</p><hr id="hr"><br>
     <table id="loginpg" >

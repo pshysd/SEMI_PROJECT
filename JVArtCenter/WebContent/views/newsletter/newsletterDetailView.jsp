@@ -1,70 +1,123 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" %>
+<%@ page import="java.util.ArrayList, com.kh.newsletter.model.vo.Newsletter, com.kh.common.model.vo.Attachment" %>
+<%@ include file="/views/common/menubar.jsp" %>
+<%
+	Newsletter ne = (Newsletter)request.getAttribute("ne");
+	ArrayList<Attachment> list = (ArrayList<Attachment>)request.getAttribute("list");
+%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>뉴스레터 상세조회 페이지</title>
-    
-    <!-- 아이콘/글씨체 링크-->
-	<link href="../../resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-	<link
-	    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	    rel="stylesheet">
-	
-	<!-- CSS -->
-	<link href="../../resources/css/sb-admin-2.min.css" rel="stylesheet">
-
-    <style>
-    	/* ---------- 전체 스타일 ---------- */
-		/* 영역 사이즈 고정 */   
-		.wrapper {
-			width: 1900px;
-			/* 각자 필요한 길이만큼 height 속성값 수정해서 길이 조정 */
-			height: 1000px;
-		};
-		#accordionSidebar { width: 224px; }
-		#content-wrapper { width: 1676px; }
-		
-		#accordionSidebar, #content-wrapper {
-			float: left;
-			height: 100%;
-		}
-		
-    </style>
+<meta charset="UTF-8">
+<title>뉴스레터 상세조회</title>
+<style>
+	/* 각자 필요한 content 길이만큼 height 속성값 수정해서 길이 조정 */
+  #content { height: 2000px; }
+  #navi a, label {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  
+  #news-paging>ul>li { 
+    list-style-type : none; 
+  } 
+  #hr1 {
+        height : 4px;
+        margin-left: 25px;
+        background-color : black;
+  }
+  #hr2 {
+        height : 2px;
+        margin-left: 25px;
+        background-color : black;     
+  }
+  #hr3 {
+        width: 90%;
+        height : 1px;
+        margin-left: 25px;
+        background-color : black;     
+  }
+</style>
 </head>
 <body>
-	<div class="wrapper">
 	
-		<%@ include file="/views/admin/adminSidebar.jsp" %>
-		
-	    <!-- Content Wrapper -->
-	    <div id="content-wrapper" class="d-flex flex-column">
-	
-	        <!-- content 영역 시작 -->
-	        <div id="content">
-				
-				<%@ include file="/views/admin/adminTopbar.jsp" %>
-	
-	            <div id="admin_contents">
-	                콘텐츠영역
-	                여기에 작성하면 됩니다. 
-	            </div>
-	
-	        </div>
-	        <!-- content 영역 끝 -->
-	
-	    </div>
-	    <!-- End of Content Wrapper -->
-	    
-	</div>
-	    
-    <%@ include file="/views/admin/adminScript.html" %>
-	
-</body>
+    <div class="wrap">
+      <!--전체를 감싸는 wrap영역-->
+
+      <div id="navi">
+        <!--세부메뉴 영역-->
+        <a href="<%= contextPath %>/list.no?currentPage=1">공지사항</a>
+        <a href="<%= contextPath %>/resources/js/faq.jsp">FAQ</a>
+        <a id="qna-write" onclick="fn_qna();">1대1 문의</a>
+        <label style="color:dimgray; font-weight: bold;">뉴스레터</label>
+      </div>
+      <script>
+        function fn_qna() {
+            <% if(loginUser == null) { %>
+                alert("로그인 후 이용 가능합니다.");
+                location.href = "<%= contextPath %>/login.me";
+            <% } else { %>
+                location.href = "<%= contextPath %>/enrollForm.qna";
+                <% } %>
+        }
+    </script>
+
+      <div id="content">
+        <!--바디-->
+        <div id="content_1"></div>
+        <div id="content_2">
+
+          <div id="news-header">
+            <h2 style="font-size: 35px; margin-left: 20px;">뉴스레터</h2>
+          </div>
+
+          <br><hr id="hr1"><br>
+
+          <div id="news-title-wrap">
+            <div id="news-title" style="font-size: 22px; font-weight: 900; margin-left: 50px;"><%= ne.getNewsTitle() %></div>            
+          	<br>
+            <span id="news-category" style="font-size: 18px; font-weight: 500; margin-left: 50px;"><%= ne.getNewsCategory() %></span>
+            <span id="news-date" style="font-size: 18px; font-weight: 300; margin-left: 50px;"><%= ne.getNewsDate() %></span>
+          </div>
+
+          <hr id="hr2"><br>
+
+          <div id="news-content-wrap" align="center">
+            <p>
+            	<% for(int i = 0; i < list.size(); i++) { %>
+          			<img src="<%= contextPath %>/<%= list.get(i).getFilePath() + list.get(i).getChangeName() %>" width="1100px">
+          		<% } %>
+            </p>
+            <p>
+                <%= ne.getNewsContent() %>
+            </p>
+          </div>
+
+          <hr id="hr3">   
+
+          <div id="news-paging">
+            <ul>
+                <li id="news-prev">
+                    <span style="color: dimgray;"><b>이전 글</b></span> &ensp;
+                    <a href="<%= contextPath %>/detail.news?neno=<%= ne.getLastNo() %>"><%= ne.getLastTitle() %></a>
+                </li>
+                <li id="news-next">
+                    <span style="color: dimgray;"><b>다음 글</b></span> &ensp;
+                    <a href="<%= contextPath %>/detail.news?neno=<%= ne.getNextNo() %>"><%= ne.getNextTitle() %></a>
+                </li>
+            </ul>
+          </div>
+          <br><br>
+          <div id="news-bottom-btn" align="center">
+              <a href="<%= contextPath %>/list.news?currentPage=1" class="btn btn-outline-primary">목록</a>
+          </div>
+
+        </div>
+        <div id="content_3"></div>
+      </div>	
+    
+    <%@ include file="/views/common/footerbar.jsp" %>
+
+  </body>
 </html>

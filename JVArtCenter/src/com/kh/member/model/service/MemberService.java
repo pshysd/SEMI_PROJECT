@@ -156,4 +156,16 @@ public class MemberService {
 
         return result;
     }
+     //북마크 서비스
+    public ArrayList<Member> selectBookMarkList(Member m) {
+            
+            
+        Connection conn = getConnection();
+            
+            ArrayList<Member> list = new MemberDao().selectBookMarkList(conn, m);
+            
+            close(conn);
+            
+            return list;
+        }
 }

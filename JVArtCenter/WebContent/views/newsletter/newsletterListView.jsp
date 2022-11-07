@@ -1,123 +1,222 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList, com.kh.common.model.vo.PageInfo, com.kh.newsletter.model.vo.Newsletter" %>
+<%@ include file="../common/menubar.jsp" %>
+<%
+	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	ArrayList<Newsletter> list = (ArrayList<Newsletter>)request.getAttribute("list");
+    String keyword = request.getParameter("keyword");
+    String searchword = request.getParameter("searchword");	
+	int currentPage = pi.getCurrentPage();
+	int startPage = pi.getStartPage();
+	int endPage = pi.getEndPage();
+	int maxPage = pi.getMaxPage();
+%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
-
-<title>뉴스레터 목록 게시판</title>
-
-<!-- 아이콘/글씨체 링크-->
-<link href="resources/vendor/fontawesome-free/css/all.min.css"
-	rel="stylesheet" type="text/css">
-<link
-	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
-
-<!-- CSS -->
-<link href="resources/css/sb-admin-2.min.css" rel="stylesheet">
-
+<meta charset="UTF-8">
+<title>뉴스레터 전체조회</title>
 <style>
-/* ---------- 전체 스타일 ---------- */
-/* 영역 사이즈 고정 */
-.wrapper {
-	width: 1900px;
-	/* 각자 필요한 길이만큼 height 속성값 수정해서 길이 조정 */
-	height: 1000px;
-}
+	  /* 각자 필요한 content 길이만큼 height 속성값 수정해서 길이 조정 */
+	  #content { height: 1900px; }
+    #navi a, label {
+      margin-left: 15px;
+      margin-right: 15px;
+    }
+	  .news-list {
+	    list-style-type : none;
+	    display : inline-block;
+	    box-sizing : border-box;
+	    width : 33%;  /* 3개씩 나오도록 적당하게 수정하기 */
+	  }
+	  #news-tab {
+	    list-style-type : none;
+	    display: flex;
+	    flex-direction: row; /* 플렉스 방향. 좌에서 우로 만들어짐 */
+	    justify-content: center;
+	    box-sizing: border-box;
+	  }
+    #selectBox, #news-search-form input, #news-search-form button {
+      display: inline-block;
+    }
+    #news-search-form {
+      margin-right: 30px;
+    }
+    /* SELECT-OPTION 효과 */
+    select {
+      -o-appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+    #selectBox {
+      position: relative;
+      width: 120px;
+      height: 45px;
+      border: 1px solid black;
+    }
+    #selectBox select {
+      width: inherit;
+      height: inherit;
+      background: transparent;
+      border: 0 none;
+      outline: 0 none;
+      padding: 0 5px;
+      position: relative;
+      z-index: 3; 
+    }
+    #selectBox option {
+      font-weight: 300;
+      color: black;
+      padding: 3px 0;
+      font-size: 16px;
+    }
+    #selectBox #icoArrow {
+      position: absolute; 
+      top: 0; 
+      right: 0; 
+      z-index: 1; 
+      width: 35px; 
+      height: inherit;
+      border-left: 1px solid black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #selectBox #icoArrow img {
+      width: 50%;
+      transition: .3s; 
+    }
+    #selectBox select:focus + #icoArrow img {
+      transform: rotate(180deg);
+    }
 
-;
-#accordionSidebar {
-	width: 224px;
-}
-
-#content-wrapper {
-	width: 1676px;
-}
-
-#accordionSidebar, #content-wrapper {
-	float: left;
-	height: 100%;
-}
 </style>
 </head>
 <body>
-	<div class="wrapper">
 
-		<%@ include file="/views/admin/adminSidebar.jsp"%>
+    <div class="wrap">
+      <!--전체를 감싸는 wrap영역-->
 
-		<!-- Content Wrapper -->
-		<div id="content-wrapper" class="d-flex flex-column">
+      <div id="navi">
+        <!--세부메뉴 영역-->
+        <a href="<%= contextPath %>/list.no?currentPage=1">공지사항</a>
+        <a href="<%= contextPath %>/resources/js/faq.jsp">FAQ</a>
+        <a id="qna-write" onclick="fn_qna();">1대1 문의</a>
+        <label style="color:dimgray; font-weight: bold;">뉴스레터</label>
+      </div>
+      <script>
+        function fn_qna() {
+            <% if(loginUser == null) { %>
+                alert("로그인 후 이용 가능합니다.");
+                location.href = "<%= contextPath %>/login.me";
+            <% } else { %>
+                location.href = "<%= contextPath %>/enrollForm.qna";
+                <% } %>
+        }
+      </script> 
 
-			<!-- content 영역 시작 -->
-			<div id="content">
+      <div id="content">
+        <!--바디-->
+        <div id="content_1"></div>
+        <div id="content_2">
 
-				<%@ include file="/views/admin/adminTopbar.jsp"%>
+          <div id="news-header">
+            <h2 style="font-size: 35px; margin-left: 20px;">뉴스레터</h2>
+          </div>
 
-				<div id="admin_contents">
+          <div id="news-search-form" align="right">
+              <form action="<%= contextPath %>/list.news?currentPage=1" method="get">
+                <div id="selectBox">
+                  <select name="keyword">
+                    <option value="" hidden disabled selected>선택</option>
+                    <option value="category">카테고리</option>
+                      <option value="title">제목</option>
+                  </select>
+                  <span id="icoArrow"><img src="https://cdn-icons.flaticon.com/svg/3916/3916855.svg?token=exp=1667573259~hmac=096ca5e940b6c6536dfd424afa476a6f" width="20"></span>
+                </div>
+                  <input type="text" name="searchword" class="form-control" placeholder="Search" style="width:200px;">
+                  <button type="submit" id="notice-search-btn" class="btn btn-primary" style="background-color:black; color:white;">검색</button>
+                  <input type="hidden" name="currentPage" value="1">
+              </form>  
+          </div>
+          <br>
 
-					<table style="text-align: center; margin: auto;">
-						<thead>
-							<tr>
-								<th>글 번호</th>
-								<th>카테고리</th>
-								<th>제목</th>
-								<th>작성일</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>5</td>
-								<td>카테고리5</td>
-								<td>글제목5</td>
-								<td>2022-10-19</td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>카테고리4</td>
-								<td>글제목4</td>
-								<td>2022-10-18</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>카테고리3</td>
-								<td>글제목3</td>
-								<td>2022-10-17</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>카테고리2</td>
-								<td>글제목2</td>
-								<td>2022-10-16</td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>카테고리1</td>
-								<td>글제목1</td>
-								<td>2022-10-15</td>
-							</tr>
-						</tbody>
-					</table>
-					<br>
-					<div align="center">
-						<a href="<%=contextPath%>/enrollForm.nl">뉴스레터 작성하기</a>
-					</div>
-				</div>
+          <div id="news-board">
+            <% if(!list.isEmpty()) { %>
+              <% for(Newsletter ne : list) { %>
+                <div class="news-list" align="center">
+                  <input type="hidden" name="qnaNo" value="<%= ne.getNewsNo() %>">
+                  <img src="<%= contextPath %>/<%= ne.getTitleImg() %>" width="400px" height="300px">
+                  <p><%= ne.getNewsCategory() %></p>
+                  <p style="font-size: 18px; font-weight: 900;"><%= ne.getNewsTitle() %></p>
+                  <span><%= ne.getNewsDate() %></span> &nbsp;&nbsp;
+                  <span><%= ne.getNewsCount() %> views</span>
+                  <br><br><br>
+                </div>
+            <% } %>
+            <% } else { %>
+              등록된 뉴스레터가 없습니다.
+            <% } %>
+          </div>
+                          
+          <!--  상세조회  -->
+          <script>
+            $(function() {
+              
+              $(".news-list").click(function() {
+                
+                location.href = "<%= contextPath %>/detail.news?neno=" +  $(this).children("input").val();
+              });
+            });
+          </script>
 
-			</div>
-			<!-- content 영역 끝 -->
+          <br><br>
 
-		</div>
-		<!-- End of Content Wrapper -->
+          <div id="newsletter-paging" align="center">
+            <% if(keyword != null) { %>
+            	<% if(currentPage != 1) { %>
+                    <button onclick="location.href='<%= contextPath %>/list.news?currentPage=<%= currentPage - 1 %>&searchword=<%=searchword %>&keyword=<%=keyword %>';" class="btn btn-secondary">&lt;</button>
+            	<% } %>
+            	
+            	<% for(int p = startPage; p <= endPage; p++) { %>
+            	
+            		<% if(p != currentPage) { %>
+                        <button onclick="location.href='<%= contextPath %>/list.news?currentPage=<%= p %>&searchword=<%=searchword %>&keyword=<%=keyword %>';" class="btn btn-secondary"><%= p %></button>
+            		<% } else { %>
+                        <button disabled class="btn btn-secondary"><%= p %></button>
+            		<% } %>
+            	<% } %>
 
-	</div>
+                <% if(currentPage != maxPage) { %>
+                    <button onclick="location.href='<%= contextPath %>/list.news?currentPage=<%= currentPage + 1 %>&searchword=<%=searchword %>&keyword=<%=keyword %>';" class="btn btn-secondary">&gt;</button>
+            	<% } %>
+            <% } else { %>
+            	<% if(currentPage != 1) { %>
+                    <button onclick="location.href='<%= contextPath %>/list.news?currentPage=<%= currentPage - 1 %>';" class="btn btn-secondary">&lt;</button>
+            	<% } %>
+            	
+            	<% for(int p = startPage; p <= endPage; p++) { %>
+            	
+            		<% if(p != currentPage) { %>
+                        <button onclick="location.href='<%= contextPath %>/list.news?currentPage=<%= p %>';" class="btn btn-secondary"><%= p %></button>
+            		<% } else { %>
+                        <button disabled class="btn btn-secondary"><%= p %></button>
+            		<% } %>
+            	<% } %>
 
-	<%@ include file="/views/admin/adminScript.html"%>
+                <% if(currentPage != maxPage) { %>
+                    <button onclick="location.href='<%= contextPath %>/list.news?currentPage=<%= currentPage + 1 %>';" class="btn btn-secondary">&gt;</button>
+            	<% } %>
+            <% } %>
+          </div>
+        </div>
 
-</body>
+        <div id="content_3"></div>
+      </div>	
+    </div>
+    <%@ include file="/views/common/footerbar.jsp" %>
+
+  </body>
 </html>

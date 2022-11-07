@@ -28,6 +28,51 @@ public class MemberDao {
         }
     }
 
+    // 북마크
+    public ArrayList<Member> selectBookMarkList(Connection conn, Member m) {
+
+        // SELECT 문 => ResultSet 객체 (여러행)
+
+        ArrayList<Member> list = new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+
+        String sql = prop.getProperty("selectBookMarkList");
+
+        try {
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, m.getMemNo());
+            rset = pstmt.executeQuery();
+
+            while (rset.next()) {
+
+                Member m2 = new Member();
+                m2.setMemNo(rset.getInt("MEM_NO"));
+                m2.setExNo(rset.getInt("EX_NO"));
+                m2.setExTitle(rset.getString("EX_TITLE"));
+                m2.setExThumbnail(rset.getString("EX_THUMBNAIL"));
+                m2.setExImage(rset.getString("EX_IMAGE"));
+
+                list.add(m2);
+                /*
+                 * Integer.parseInt
+                 * 
+                 * (request.getParameter("mno"));
+                 */
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+            close(rset);
+            close(pstmt);
+        }
+
+        return list;
+    }
+
     public Member loginMember(Connection conn, Member m) {
 
         // 필요한 변수 셋팅

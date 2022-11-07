@@ -3,6 +3,7 @@
 <%@ page import="com.kh.member.model.vo.Member"%>
 <%
 	Member m = (Member)request.getAttribute("m");
+	String contextPath = request.getContextPath();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,7 +65,7 @@
 				<%@ include file="/views/admin/adminTopbar.jsp"%>
 
 				<div id="admin_contents">
-					<form id="update-form" action="<%=contextPath%>/update.mb"
+					<form id="update-form" action="<%=contextPath%>/update.me"
 						method="post">
 						<input type="hidden" name="memNo" value="<%=m.getMemNo()%>">
 						<table align="center" border="1px solid black">

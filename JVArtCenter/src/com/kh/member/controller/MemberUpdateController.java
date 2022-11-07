@@ -16,7 +16,7 @@ import com.kh.member.model.vo.Member;
 /**
  * Servlet implementation class MemberUpdateController
  */
-@WebServlet("/update.mb")
+@WebServlet("/update.me")
 public class MemberUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -45,10 +45,10 @@ public class MemberUpdateController extends HttpServlet {
 	    int result = new MemberService().updateMember(m);
 	    if(result>0) {
 	        request.getSession().setAttribute("alertMsg", "정보 수정이 완료되었습니다.");
-	        response.sendRedirect(request.getContextPath()+"/list.mb?currentPage=1");
+	        response.sendRedirect(request.getContextPath()+"/admin_list.me?currentPage=1");
 	    }else {
 	        request.getSession().setAttribute("alertMsg", "처리 과정에 문제가 발생했습니다.");
-	        response.sendRedirect(request.getContextPath()+"/list.mb?currentPage=1");
+	        response.sendRedirect(request.getContextPath()+"/admin_list.me?currentPage=1");
 	    }
 	    
 	}

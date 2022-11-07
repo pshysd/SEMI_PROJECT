@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ page
 	import="com.kh.common.model.vo.PageInfo, java.util.ArrayList, com.kh.member.model.vo.Member"%>
+	
+<%@ include file="../admin/adminPath.jsp" %>
 <%
 	PageInfo pi = (PageInfo) request.getAttribute("pi");
 ArrayList<Member> list = (ArrayList<Member>) request.getAttribute("list");
@@ -110,7 +112,7 @@ int maxPage = pi.getMaxPage();
 								<td><%=m.getPhone() %></td>
 								<td><%=m.getEnrollDate() %></td>
 								<td><%=m.getMemStatus() %></td>
-								<td><button type="button" onclick="location.href='<%=contextPath%>/updateForm.mb?mno=<%=m.getMemNo()%>'">수정하기</button>
+								<td><button type="button" onclick="location.href='<%=contextPath%>/updateForm.me?mno=<%=m.getMemNo()%>'">수정하기</button>
 							</tr>
 							<%
 								}
@@ -127,7 +129,7 @@ int maxPage = pi.getMaxPage();
 							if (currentPage != 1) {
 						%>
 						<button
-							onclick="location.href='<%=contextPath%>/list.mb?currentPage=<%=currentPage - 1%>'">&lt;</button>
+							onclick="location.href='<%=contextPath%>/admin_list.me?currentPage=<%=currentPage - 1%>'">&lt;</button>
 						<%
 							}
 						%>
@@ -138,7 +140,7 @@ int maxPage = pi.getMaxPage();
 							if (p != currentPage) {
 						%>
 						<button
-							onclick="location.href='<%=contextPath%>/list.mb?currentPage=<%=p%>'"><%=p%></button>
+							onclick="location.href='<%=contextPath%>/admin_list.me?currentPage=<%=p%>'"><%=p%></button>
 						<%
 							} else {
 						%>
@@ -153,7 +155,7 @@ int maxPage = pi.getMaxPage();
 							if (currentPage != maxPage) {
 						%>
 						<button
-							onclick="location.href='<%=contextPath%>/list.mb?currentPage=<%=currentPage + 1%>'">&gt;</button>
+							onclick="location.href='<%=contextPath%>/admin_list.me?currentPage=<%=currentPage + 1%>'">&gt;</button>
 						<%
 							}
 						%>

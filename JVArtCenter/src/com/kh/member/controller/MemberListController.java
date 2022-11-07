@@ -16,7 +16,7 @@ import com.kh.member.model.vo.Member;
 /**
  * Servlet implementation class MemberListController
  */
-@WebServlet("/list.mb")
+@WebServlet("/admin_list.me")
 public class MemberListController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

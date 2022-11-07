@@ -186,7 +186,7 @@ file="../common/menubar.jsp" %>
 
               <div id="email">
                 <label class="must"> 이메일</label>
-                <input class="box" id="emailid" type="text" name="email1" /> @
+                <input class="box" id="emailid" type="text" name="email1"0 /> @
                 <input class="box" id="domain-txt" type="text" name="email2" />&nbsp;
                 <select class="box" id="domain-list" id="domin">
                   <option value="type">직접입력</option>
@@ -196,9 +196,12 @@ file="../common/menubar.jsp" %>
                   <option value="nate.com">nate.com</option>
                   <option value="hotmail.com">hotmail.com</option>
                 </select>
-                <button id="emailCheck" class="btn btn-dark">이메일인증</button>
+                <button type="button" id="checkEmail" class="btn btn-dark">이메일인증</button>
               </div>
-
+              <div id="checkAuth"style="display:none">
+                <input type="text">
+                <button type="button" class="btn">인증하기</button>
+              </div>
               <div id="gender">
                 <label class="must"> 성별</label>
                 <input type="radio" name="gender" value="M" /><span>남</span>
@@ -258,34 +261,32 @@ file="../common/menubar.jsp" %>
                 success : (res) => {
                   if(res === "NNNNN"){
                     alert('이미 사용중이거나 탈퇴한 회원의 아이디입니다. 다른 아이디를 입력해주세요');
-                    $('input[name=memId').val('');
-                    $('input[name=memId').focus();
+                    $('input[name=memId]').val('');
+                    $('input[name=memId]').focus();
                   }else{
                     alert('사용 가능한 아이디입니다.');
-                    $('input[name=memPwd').focus();
+                    $('input[name=memPwd]').focus();
                   }
                 },
                 error : console.log('아이디 체크 AJAX 통신 중 문제 발생') // 잘되는데 이거 왜뜨지
               })
             });
 
-            const emailCheckBtn = document.getElementById('emailCheck');
+            const checkEmailBtn = document.getElementById('checkEmail');
 
-            function emailCheck() {
-              const email = $('input[name=email1]').val() + '@' + $('input[name=email2]').val();
+              checkEmailBtn.addEventListener('click', () => {
+                const email = document.querySelector('input[name=email1]').value+"@"+document.querySelector('input[name=email2]').value;
 
-              $.ajax({
+              $.ajax({  
                 url : '<%=contextPath%>/sendEmail.me',
+                type : 'get',
                 data : {email : email},
-                type : get,
-                success : () => {
-                  windows.open('<%=contextPath%>/emailCheckPage.jsp')
+                success : (res) => {
+                  $('#checkEmail').css.attr('display', 'block');
                 },
                 error : console.log('이메일 인증 AJAX 통신 중 문제 발생')
-              })
-
-              emailCheckBtn('click', emailCheck);
-            }
+              });
+            });
           </script>
         </div>
 
@@ -296,3 +297,35 @@ file="../common/menubar.jsp" %>
     <%@ include file="../common/footerbar.jsp" %>
   </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

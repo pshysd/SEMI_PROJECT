@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="selectListCount">
+		SELECT COUNT(*) COUNT
+		FROM QNA
+		WHERE QNA_STATUS = 'N'
+	</entry>
+
+	<entry key="selectCateListCount">
+		SELECT COUNT(*) COUNT
+		FROM QNA
+		WHERE QNA_STATUS = 'N'
+		AND QNA_CATEGORY LIKE '%' || ? || '%'
+	</entry>
+
+	<entry key="selectMemIdListCount">
+		SELECT COUNT(*) COUNT
+		FROM QNA
+		JOIN MEMBER USING (MEM_NO)
+		WHERE QNA_STATUS = 'N'
+		AND MEM_ID LIKE '%' || ? || '%'
+	</entry>
+
+	<entry key="selectTitleListCount">
+		SELECT COUNT(*) COUNT
+		FROM QNA
+		WHERE QNA_STATUS = 'N'
+		AND QNA_TITLE LIKE '%' || ? || '%'
+	</entry>
+
+	<!-- 로그인 회원의 문의 리스트 -->
+	<entry key="selectOwnList">
+		SELECT *
+		FROM (SELECT ROWNUM RNUM, A.*
+		FROM (SELECT QNA_NO
+		, MEM_NO
+		, MEM_ID
+		, QNA_CATEGORY
+		, QNA_TITLE
+		, QNA_DATE
+		, ANSWER
+		, ANSWER_DATE
+		FROM QNA
+		JOIN MEMBER USING (MEM_NO)
+		WHERE MEM_NO = ?
+		AND QNA_STATUS = 'N'
+		ORDER BY QNA_NO DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<!-- 관리자용 전체 리스트 조회 -->
+	<entry key="selectList">
+		SELECT *
+		FROM (SELECT ROWNUM RNUM, A.*
+		FROM (SELECT QNA_NO
+		, MEM_ID
+		, QNA_CATEGORY
+		, QNA_TITLE
+		, QNA_DATE
+		, ANSWER
+		, ANSWER_DATE
+		FROM QNA
+		JOIN MEMBER USING (MEM_NO)
+		WHERE QNA_STATUS = 'N'
+		ORDER BY QNA_NO DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<entry key="selectCategoryList">
+		SELECT *
+		FROM (SELECT ROWNUM RNUM, A.*
+		FROM (SELECT QNA_NO
+		, MEM_ID
+		, QNA_CATEGORY
+		, QNA_TITLE
+		, QNA_DATE
+		, ANSWER
+		, ANSWER_DATE
+		FROM QNA
+		JOIN MEMBER USING (MEM_NO)
+		WHERE QNA_STATUS = 'N'
+		AND QNA_CATEGORY LIKE '%' || ? || '%'
+		ORDER BY QNA_NO DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<entry key="selectMemIdList">
+		SELECT *
+		FROM (SELECT ROWNUM RNUM, A.*
+		FROM (SELECT QNA_NO
+		, MEM_ID
+		, QNA_CATEGORY
+		, QNA_TITLE
+		, QNA_DATE
+		, ANSWER
+		, ANSWER_DATE
+		FROM QNA
+		JOIN MEMBER USING (MEM_NO)
+		WHERE QNA_STATUS = 'N'
+		AND MEM_ID LIKE '%' || ? || '%'
+		ORDER BY QNA_NO DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<entry key="selectTitleList">
+		SELECT *
+		FROM (SELECT ROWNUM RNUM, A.*
+		FROM (SELECT QNA_NO
+		, MEM_ID
+		, QNA_CATEGORY
+		, QNA_TITLE
+		, QNA_DATE
+		, ANSWER
+		, ANSWER_DATE
+		FROM QNA
+		JOIN MEMBER USING (MEM_NO)
+		WHERE QNA_STATUS = 'N'
+		AND QNA_TITLE LIKE '%' || ? || '%'
+		ORDER BY QNA_NO DESC) A)
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+
+	<entry key="insertQna">
+		INSERT INTO QNA (QNA_NO
+		, MEM_NO
+		, QNA_CATEGORY
+		, QNA_TITLE
+		, QNA_CONTENT)
+		VALUES (SEQ_QNA_NO.NEXTVAL
+		, ?
+		, ?
+		, ?
+		, ?)
+	</entry>
+
+	<entry key="selectQna">
+		SELECT QNA_NO
+		, MEM_ID
+		, QNA_CATEGORY
+		, QNA_TITLE
+		, QNA_CONTENT
+		, QNA_DATE
+		, ANSWER
+		FROM QNA
+		JOIN MEMBER USING (MEM_NO)
+		WHERE QNA_NO = ?
+		AND QNA_STATUS = 'N'
+	</entry>
+
+	<entry key="updateQna">
+		UPDATE QNA
+		SET QNA_CATEGORY = ?
+		, QNA_TITLE = ?
+		, QNA_CONTENT = ?
+		WHERE QNA_NO = ?
+		AND QNA_STATUS = 'N'
+	</entry>
+
+	<entry key="deleteQna">
+		UPDATE QNA
+		SET QNA_STATUS = 'Y'
+		WHERE QNA_NO = ?
+	</entry>
+
+	<entry key="insertQnaAnswer">
+		UPDATE QNA
+		SET ANSWER = ?
+		, ANSWER_DATE = SYSDATE
+		WHERE QNA_NO = ?
+		AND QNA_STATUS = 'N'
+	</entry>
+
+	<entry key="updateQnaAnwer">
+		UPDATE QNA
+		SET ANSWER = ?
+		, ANSWER_DATE = SYSDATE
+		WHERE QNA_NO = ?
+		AND QNA_STATUS = 'N'
+	</entry>
+
+	<entry key="deleteQnaAnswer">
+		UPDATE QNA
+		SET ANSWER = NULL
+		, ANSWER_DATE = NULL
+		WHERE QNA_NO = ?
+	</entry>
+
+	<entry key="selectMainList">
+		SELECT QNA_NO,QNA_CATEGORY,QNA_TITLE,QNA_DATE
+		FROM QNA
+		WHERE ANSWER IS NULL
+		ORDER BY QNA_NO DESC
+	</entry>
+</properties>

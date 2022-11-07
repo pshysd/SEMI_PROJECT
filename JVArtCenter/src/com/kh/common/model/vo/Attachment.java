@@ -10,12 +10,13 @@ public class Attachment {
     private String originName;
     private String changeName;
     private String filePath;
+    private int fileLevel;
     private Date uploadDate;
     private String fileStatus;
     
     public Attachment() {}
     public Attachment(int fileNo, int noticeNo, int newsNo, String originName, String changeName, String filePath,
-            Date uploadDate, String fileStatus) {
+            int fileLevel, Date uploadDate, String fileStatus) {
         super();
         this.fileNo = fileNo;
         this.noticeNo = noticeNo;
@@ -23,13 +24,24 @@ public class Attachment {
         this.originName = originName;
         this.changeName = changeName;
         this.filePath = filePath;
+        this.fileLevel = fileLevel;
         this.uploadDate = uploadDate;
         this.fileStatus = fileStatus;
+    }
+    
+    // 상세조회용 생성자
+    public Attachment(int fileNo, String originName, String changeName, String filePath) {
+        super();
+        this.fileNo = fileNo;
+        this.originName = originName;
+        this.changeName = changeName;
+        this.filePath = filePath;
     }
     
     public int getFileNo() {
         return fileNo;
     }
+ 
     public void setFileNo(int fileNo) {
         this.fileNo = fileNo;
     }
@@ -63,6 +75,12 @@ public class Attachment {
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
+    public int getFileLevel() {
+        return fileLevel;
+    }
+    public void setFileLevel(int fileLevel) {
+        this.fileLevel = fileLevel;
+    }
     public Date getUploadDate() {
         return uploadDate;
     }
@@ -79,7 +97,8 @@ public class Attachment {
     @Override
     public String toString() {
         return "Attachment [fileNo=" + fileNo + ", noticeNo=" + noticeNo + ", newsNo=" + newsNo + ", originName="
-                + originName + ", changeName=" + changeName + ", filePath=" + filePath + ", uploadDate=" + uploadDate
-                + ", fileStatus=" + fileStatus + "]";
+                + originName + ", changeName=" + changeName + ", filePath=" + filePath + ", fileLevel=" + fileLevel
+                + ", uploadDate=" + uploadDate + ", fileStatus=" + fileStatus + "]";
     }
+    
 }

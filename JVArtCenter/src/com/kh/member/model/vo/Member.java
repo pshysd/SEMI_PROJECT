@@ -15,9 +15,24 @@ public class Member {
     private String phone;
     private Date enrollDate;
     private String memStatus;
-
+    private int exNo;
+    private String exTitle;
+    private String exThumbnail;
+    private String exImage;
+    
     public Member() {
     }
+
+        //생성자 추가 북마크
+    public Member(int exNo, String exTitle, String exThumbnail, String exImage) {
+        super();
+        this.exNo = exNo;
+        this.exTitle = exTitle;
+        this.exThumbnail = exThumbnail;
+        this.exImage = exImage;
+    }
+
+
     //회원조회용
     public Member(int memNo, String grCode, String memId, String memPwd, String memName, String gender, String email,
             String birthDate, String phone, Date enrollDate, String memStatus) {
@@ -184,6 +199,38 @@ public class Member {
 
     public void setMemStatus(String memStatus) {
         this.memStatus = memStatus;
+    }
+
+    public int getExNo() {
+        return exNo;
+    }
+
+    public String getExTitle() {
+        return exTitle;
+    }
+
+    public String getExThumbnail() {
+        return exThumbnail;
+    }
+
+    public String getExImage() {
+        return exImage;
+    }
+
+    public void setExNo(int exNo) {
+        this.exNo = exNo;
+    }
+
+    public void setExTitle(String exTitle) {
+        this.exTitle = exTitle;
+    }
+
+    public void setExThumbnail(String exThumbnail) {
+        this.exThumbnail = exThumbnail;
+    }
+
+    public void setExImage(String exImage) {
+        this.exImage = exImage;
     }
 
     @Override
