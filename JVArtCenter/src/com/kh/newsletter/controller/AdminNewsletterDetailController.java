@@ -41,7 +41,7 @@ public class AdminNewsletterDetailController extends HttpServlet {
         if(list != null) {
             request.setAttribute("ne", ne);
             request.setAttribute("list", list);
-            request.getRequestDispatcher("views/newsletter/adminNewsletterDetailView.jsp").forward(request, response);
+            request.getRequestDispatcher("views/admin/adminNewsletterDetailView.jsp").forward(request, response);
         } else {
             request.setAttribute("errorMsg", "뉴스레터 상세조회 실패");
         }

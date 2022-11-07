@@ -24,6 +24,13 @@ public class Review {
         this.reviewStatus = reviewStatus;
     }
     
+    public Review(int reviewNo, String reviewContent, int rating, Date reviewDate) {
+        super();
+        this.reviewNo = reviewNo;
+        this.reviewContent = reviewContent;
+        this.rating = rating;
+        this.reviewDate = reviewDate;
+    }
     public Review(int reviewNo, String memNo, String exNo, String reviewContent, int rating, Date reviewDate) {
         this.reviewNo = reviewNo;
         this.memNo = memNo;

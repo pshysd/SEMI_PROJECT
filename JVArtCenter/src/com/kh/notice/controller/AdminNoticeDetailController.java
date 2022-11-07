@@ -39,7 +39,7 @@ public class AdminNoticeDetailController extends HttpServlet {
         if(n != null) {
             request.setAttribute("n", n);
             request.setAttribute("at", at);
-            request.getRequestDispatcher("views/notice/adminNoticeDetailView.jsp").forward(request, response);
+            request.getRequestDispatcher("views/admin/adminNoticeDetailView.jsp").forward(request, response);
         } else {
             request.setAttribute("errorMsg", "공지사항 상세조회 실패");
            

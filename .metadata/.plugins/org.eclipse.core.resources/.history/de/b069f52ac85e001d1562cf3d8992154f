@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="selectExhibitionList_P">
+		SELECT *
+		FROM EXHIBITION
+		WHERE END_DATE &lt; SYSDATE                     <!--< 기호는 인식을 못하여 특수문자 사용 -->
+	</entry>
+	
+	<entry key="selectExhibitionList_C">
+		SELECT *
+		FROM EXHIBITION
+		WHERE START_DATE &lt;= SYSDATE
+		     AND END_DATE &gt;= SYSDATE
+	</entry>
+
+	<entry key="selectExhibitionList_F">
+		SELECT *
+		FROM EXHIBITION
+		WHERE START_DATE &gt; SYSDATE
+	</entry>
+
+
+	<entry key="selectExhibitionDetail">
+		SELECT *
+		FROM EXHIBITION
+		WHERE EX_NO = ?                
+	</entry>
+	
+	<entry key="selectExhibitionSearch">
+	SELECT *
+	FROM EXHIBITION
+	WHERE ARTISTS LIKE '%' || ? || '%' 
+	OR EX_TITLE LIKE '%' || ? || '%'
+	</entry>
+	
+	<entry key="insertBookmark">
+	INSERT INTO BOOKMARK (MEM_NO , EX_NO)
+							VALUES(?, ?)
+	</entry>
+	
+	
+	<entry key="deleteBookmark">
+	DELETE
+	FROM BOOKMARK
+	WHERE MEM_NO = ?
+				AND EX_NO = ?
+	</entry>
+	
+
+	<entry key="checkExhibitionBookmarked">
+	SELECT *
+	FROM  BOOKMARK
+	WHERE MEM_NO = ?
+			AND EX_NO = ?
+	</entry>
+
+	<entry key="selectExhibitionReview">
+	SELECT *
+	FROM REVIEW
+	WHERE EX_NO = ?         
+	
+	</entry>
+	
+	
+
+	
+	
+</properties>

@@ -79,7 +79,7 @@ public class AdminQnaListController extends HttpServlet {
             request.setAttribute("keyword", keyword);
             request.setAttribute("searchword", searchword);
         }
-        request.getRequestDispatcher("views/qna/adminQnaListView.jsp").forward(request, response);
+        request.getRequestDispatcher("views/admin/adminQnaListView.jsp").forward(request, response);
 	}
 
 	/**

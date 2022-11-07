@@ -36,7 +36,7 @@ public class AdminQnaEnrollFormController extends HttpServlet {
         
         if(q != null) {
             request.setAttribute("q", q);
-            request.getRequestDispatcher("views/qna/adminQnaEnrollForm.jsp").forward(request, response);
+            request.getRequestDispatcher("views/admin/adminQnaEnrollForm.jsp").forward(request, response);
         } else {
             request.setAttribute("errorMsg", "1대1문의 상세조회 실패");
            

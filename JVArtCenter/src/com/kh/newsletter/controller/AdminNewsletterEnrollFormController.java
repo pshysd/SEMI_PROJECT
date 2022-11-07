@@ -27,7 +27,7 @@ public class AdminNewsletterEnrollFormController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  
-	    request.getRequestDispatcher("views/newsletter/adminNewsletterEnrollForm.jsp").forward(request, response);
+	    request.getRequestDispatcher("views/admin/adminNewsletterEnrollForm.jsp").forward(request, response);
 	}
 
 	/**

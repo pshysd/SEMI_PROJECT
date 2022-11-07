@@ -54,7 +54,7 @@ public class AdminReviewListController extends HttpServlet {
         request.setAttribute("pi", pi);
         request.setAttribute("list", list);
 
-        request.getRequestDispatcher("views/review/adminReviewListView.jsp").forward(request, response);
+        request.getRequestDispatcher("views/admin/adminReviewListView.jsp").forward(request, response);
     }
 
     /**

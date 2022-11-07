@@ -41,7 +41,7 @@ public class AdminNoticeUpdateFormController extends HttpServlet {
 	    request.setAttribute("n", n);
 	    request.setAttribute("at", at);
 	    
-	    request.getRequestDispatcher("views/notice/adminNoticeUpdateForm.jsp").forward(request, response);
+	    request.getRequestDispatcher("views/admin/adminNoticeUpdateForm.jsp").forward(request, response);
 	}
 
 	/**

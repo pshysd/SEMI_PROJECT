@@ -42,7 +42,7 @@ public class AdminNewsletterUpdateFormCotroller extends HttpServlet {
         request.setAttribute("ne", ne);
         request.setAttribute("list", list);
         
-        request.getRequestDispatcher("views/newsletter/adminNewsletterUpdateForm.jsp").forward(request, response);
+        request.getRequestDispatcher("views/admin/adminNewsletterUpdateForm.jsp").forward(request, response);
 	}
 
 	/**

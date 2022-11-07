@@ -30,9 +30,10 @@ public class Exhibition {
         this.exImage = exImage;
         this.exStatus = exStatus;
     }
-
-    // 예매 가능한 전시 목록 조회용
-    public Exhibition(int exNo, String lcCode, String exTitle, String exContent, String startDate, String endDate, String exThumbnail, String artists) {
+    
+    // 전시 상세조회용
+    public Exhibition(int exNo, String lcCode, String exTitle, String exContent, String startDate, String endDate,
+            int price, String artists, String exThumbnail, String exImage) {
         super();
         this.exNo = exNo;
         this.lcCode = lcCode;
@@ -40,12 +41,59 @@ public class Exhibition {
         this.exContent = exContent;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.price = price;
+        this.artists = artists;
         this.exThumbnail = exThumbnail;
+        this.exImage = exImage;
+    }
+    
+    // 메인 올해 전시 조회
+    public Exhibition(String exTitle, String startDate, String endDate) {
+        super();
+        this.exTitle = exTitle;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+    
+    // 관리자
+    // 전체 전시 목록
+    public Exhibition(int exNo, String lcCode, String exTitle, String startDate, String endDate) {
+        super();
+        this.exNo = exNo;
+        this.lcCode = lcCode;
+        this.exTitle = exTitle;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+    // 전시 추가용
+    public Exhibition(String lcCode, String exTitle, String exContent, String startDate, String endDate, int price,
+            String artists) {
+        super();
+        this.lcCode = lcCode;
+        this.exTitle = exTitle;
+        this.exContent = exContent;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.price = price;
         this.artists = artists;
     }
-    // 예매한 전시 정보 조회용
-    public Exhibition(String lcCode, String exTitle, String startDate, String endDate, int price, String exThumbnail) {
+    
+    // ----- 예매관련 -----
+    // 예매 가능한 전시 목록 조회용
+    public Exhibition(int exNo, String lcCode, String exTitle, String startDate, String endDate, String exThumbnail) {
         super();
+        this.exNo = exNo;
+        this.lcCode = lcCode;
+        this.exTitle = exTitle;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.exThumbnail = exThumbnail;
+    }
+    
+    // 예매한 전시 정보 조회용
+    public Exhibition(int exNo, String lcCode, String exTitle, String startDate, String endDate, int price, String exThumbnail) {
+        super();
+        this.exNo = exNo;
         this.lcCode = lcCode;
         this.exTitle = exTitle;
         this.startDate = startDate;

@@ -79,7 +79,7 @@ public class AdminNoticeListController extends HttpServlet {
         }
 
         
-        request.getRequestDispatcher("views/notice/adminNoticeListView.jsp").forward(request, response);
+        request.getRequestDispatcher("views/admin/adminNoticeListView.jsp").forward(request, response);
 	}
 
 	/**

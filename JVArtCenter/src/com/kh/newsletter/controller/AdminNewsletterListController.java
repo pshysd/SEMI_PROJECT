@@ -85,7 +85,7 @@ public class AdminNewsletterListController extends HttpServlet {
             request.setAttribute("searchword", searchword);
         }
         
-        request.getRequestDispatcher("views/newsletter/adminNewsletterListView.jsp").forward(request, response);
+        request.getRequestDispatcher("views/admin/adminNewsletterListView.jsp").forward(request, response);
 	}
 
 	/**

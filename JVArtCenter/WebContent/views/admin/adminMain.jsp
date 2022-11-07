@@ -272,7 +272,7 @@
 						-> 글 제목 클릭 시 상세페이지
 					-->
 					<div class="rows">
-						<table style="text-align:center;" class="qnaList">
+						<table style="text-align:center; margin-left:40px;" class="qnaList">
 							<thead>
 								<tr>
 									<th>글 번호</th>
@@ -326,7 +326,7 @@
 
 	</div>
 
-	<%@ include file="../admin/adminScript.html"%>
+	<%@ include file="adminScript.html"%>
 
 </body>
 

@@ -8,7 +8,7 @@
 	<!-- Sidebar - Brand -->
 	<a
 		class="sidebar-brand d-flex align-items-center justify-content-center"
-		href="/jv/views/admin/adminMain.jsp">
+		href="views/admin/adminMain.jsp">
 
 		<div class="sidebar-brand-text mx-3">JV artcenter admin</div>
 	</a>
@@ -26,8 +26,8 @@
 		<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
 			data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
-				<a class="collapse-item" href="/jv/exhibitionListView.do/pgno=1">전시 목록</a> <a class="collapse-item"
-					href="">전시 추가</a>
+				<a class="collapse-item" href="/jv/admin_list.ex?currentPage=1">전시 목록</a> <a class="collapse-item"
+					href="/jv/admin_enrollForm.ex">전시 추가</a>
 			</div>
 		</div></li>
 
@@ -43,7 +43,7 @@
 			aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 
-				<a class="collapse-item" href="/jv/admin_list.me?currentPage=1">회원 정보 조회</a>
+				<a class="collapse-item" href="/jv/selectmember.admin?currentPage=1">회원 정보 조회</a>
 
 			</div>
 		</div></li>
