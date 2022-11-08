@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.kh.common.model.vo.Attachment;
 import com.kh.exhibition.model.service.ExhibitionService;
 import com.kh.exhibition.model.vo.Exhibition;
+import com.kh.newsletter.model.service.NewsletterService;
+import com.kh.newsletter.model.vo.Newsletter;
 
 /**
  * Servlet implementation class AdminExhibitionDetailController
@@ -31,11 +33,19 @@ public class AdminExhiitionDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    int eno = Integer.parseInt(request.getParameter("eno"));
-	    
-	    Exhibition e = new ExhibitionService().selectExhibition(eno);
-	    
-	    ArrayList<Attachment> list = new ExhibitionService().selectAttachmentList(eno);
+        int eno = Integer.parseInt(request.getParameter("eno"));
+        
+        Exhibition ex = new ExhibitionService().selectExhibition(eno);
+        ArrayList<Attachment> list  = new ExhibitionService().selectAttachmentList(eno); 
+        
+        if(list != null) {
+            request.setAttribute("ex", ex);
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("views/admin/adminExhibitionDetailView.jsp").forward(request, response);
+        } else {
+            request.setAttribute("errorMsg", "뉴스레터 상세조회 실패");
+        }
+    }
 	    
 	    
 	           /*        
@@ -54,8 +64,6 @@ public class AdminExhiitionDetailController extends HttpServlet {
     }
 	            
 	        }*/
-	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

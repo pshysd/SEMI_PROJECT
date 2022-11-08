@@ -25,7 +25,6 @@ public class AdminNewsletterDetailController extends HttpServlet {
      */
     public AdminNewsletterDetailController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

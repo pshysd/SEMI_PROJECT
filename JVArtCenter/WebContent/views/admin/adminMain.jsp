@@ -272,9 +272,9 @@
 						-> 글 제목 클릭 시 상세페이지
 					-->
 					<div class="rows">
-						<table style="text-align:center; margin-left:40px;" class="qnaList">
+						<table class="qnaList" align="center">
 							<thead>
-								<tr>
+								<tr style="background-color: #4e73df; color: white; height: 50px; text-align: center;">
 									<th>글 번호</th>
 									<th>카테고리</th>
 									<th>글 제목</th>

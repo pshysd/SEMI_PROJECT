@@ -124,7 +124,7 @@
 							
 						<form id="updateMember-form" action="<%= contextPath %>/updatemember.admin" method="post">
 							<div id="form" align="center">						<!-- 아이디, 비밀번호, (비밀번호확인), 전화번호, 이메일, 주소, 취미 -->
-								<input type="hidden" name="mno" value=<%= m.getMemNo() %>>
+								<input type="hidden" name="mno" value="<%= m.getMemNo() %>">
 								<table>
 									<!-- (tr>td*3)*8 + Enter -->
 									<tr>

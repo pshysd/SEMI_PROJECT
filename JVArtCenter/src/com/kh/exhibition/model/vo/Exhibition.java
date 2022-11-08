@@ -30,7 +30,6 @@ public class Exhibition {
         this.exImage = exImage;
         this.exStatus = exStatus;
     }
-    
     // 전시 상세조회용
     public Exhibition(int exNo, String lcCode, String exTitle, String exContent, String startDate, String endDate,
             int price, String artists, String exThumbnail, String exImage) {
@@ -102,6 +101,15 @@ public class Exhibition {
         this.exThumbnail = exThumbnail;
     }
     
+    public Exhibition(int rnum, int exNo, String lcCode, String exTitle, String startDate, String endDate, int price, String exThumbnail) {
+        this.exNo = exNo;
+        this.lcCode = lcCode;
+        this.exTitle = exTitle;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.price = price;
+        this.exThumbnail = exThumbnail;
+    }
     public int getExNo() {
         return exNo;
     }

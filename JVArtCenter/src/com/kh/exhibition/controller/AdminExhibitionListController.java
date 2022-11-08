@@ -25,7 +25,6 @@ public class AdminExhibitionListController extends HttpServlet {
      */
     public AdminExhibitionListController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
