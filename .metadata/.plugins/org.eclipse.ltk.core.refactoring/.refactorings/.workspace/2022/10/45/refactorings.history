@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Delete resource &apos;JVArtCenter/WebContent/views/member/memberUpdateForm.jsp&apos;" deleteContents="false" description="Delete resource &apos;JVArtCenter/WebContent/views/member/memberUpdateForm.jsp&apos;" element1="/JVArtCenter/WebContent/views/member/memberUpdateForm.jsp" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1667202092972"/>
-</session>

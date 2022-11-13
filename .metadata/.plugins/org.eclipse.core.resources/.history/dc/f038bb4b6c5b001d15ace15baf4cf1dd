@@ -1,5 +1,0 @@
-package com.kh.reservation.model.daop;
-
-public class ReservationDao {
-
-}
